@@ -8,11 +8,11 @@ AddType font/woff .woff
 
 RewriteEngine On
 RewriteCond %{SERVER_NAME} =srv.re
-RewriteCond %{REQUEST_URI} !^/_html_template/www/.*$
-RewriteRule ^(.*)$ /_html_template/www/$1 [L]
+RewriteCond %{REQUEST_URI} !^/ngadmin/www/.*$
+RewriteRule ^(.*)$ /ngadmin/www/$1 [L]
 
 #herokuapp
-RewriteCond %{SERVER_NAME} =_html_template.herokuapp.com
+RewriteCond %{SERVER_NAME} =ngadmin.herokuapp.com
 RewriteCond %{REQUEST_URI} !^/www/.*$
 RewriteRule ^(.*)$ /www/$1 [L]
 

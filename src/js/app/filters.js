@@ -13,3 +13,11 @@ app.filter('maxChars', function () {
         return src;
     }
 });
+
+app.filter('dateformat', ['$filter', 'CmsConfig', function ($filter, CmsConfig) {
+    return function(text){
+        if(!text)return "";
+        var  tempdate= new Date(text.replace(/-/g,"/"));
+        return $filter('date')(tempdate, CmsConfig.dateFormat);
+    }
+}]);

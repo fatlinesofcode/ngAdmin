@@ -1,5 +1,5 @@
 {
-  "name": "_html_templates",
+  "name": "angularcms",
   "version": "0.0.0",
   "authors": [
     "phil <phil@frontside.com.au>"
@@ -8,7 +8,7 @@
   "ignore": [
     "**/.*",
     "node_modules",
-    "src/js/bower/",
+    "src/js/components/",
     "test",
     "tests"
   ],

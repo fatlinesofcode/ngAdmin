@@ -1,0 +1,10 @@
+.idea/
+*.iml
+design/*.*
+design/
+.sass-cache/
+.DS_Store
+node_modules/*
+npm-debug.log
+resources
+coverage

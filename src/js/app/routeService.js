@@ -1,6 +1,12 @@
 app.Routes = [];
 /* add view routes here. Title, URL, Template and Controller names will be generated based on the name if not provided */
 app.Routes.push({name: 'home'});
+app.Routes.push({name: 'edit'});
+app.Routes.push({name: 'login'});
+app.Routes.push({name: 'edit', url:'edit/:table/:id', templateUrl: app.AppConfig.templatePath + 'edit.tpl.html'});
+app.Routes.push({name: 'list', url:'list/:table', templateUrl: app.AppConfig.templatePath + 'list.tpl.html'});
+
+//Routes.push({name: 'food', url: 'food/browse/:category', templateUrl:Config.templatePath+'food-categories.html'});
 
 app.config(['$routeProvider', function ($routeProvider) {
     for (var i in app.Routes) {
@@ -13,7 +19,7 @@ app.config(['$routeProvider', function ($routeProvider) {
     }
     // $routeProvider.when('/food/:category', {templateUrl: Config.templatePath +'food-categories.html', controller: 'FoodController'});
     // $routeProvider.when('/exercise/recording', { templateUrl: Config.templatePath + 'exercise-recording.html', controller: 'ExerciseController'});
-    $routeProvider.otherwise({redirectTo: '/home'});
+    $routeProvider.otherwise({redirectTo: '/login'});
 }]);
 
 app.factory('routeService', ['$timeout', '$location', function ($timeout, $location) {

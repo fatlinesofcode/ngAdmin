@@ -1,9 +1,9 @@
 * { outline-style: none; }
 h1,h2,h3,h4,h5,h6,pre,code { font-size:1em; }
-ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset { margin:0; padding:0; }
+//ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset { margin:0; padding:0; }
 input { margin: 0; }
 a img,:link img,:visited img { border: none; }
-ol,ul{list-style:none;}
+//ol,ul{list-style:none;}
 th{text-align:left;}
 h1,h2,h3,h4{font-size:100%;}
 q:before,q:after{content:'';}
@@ -22,9 +22,9 @@ a{text-decoration: none}
   font-smoothing: antialiased;
 }
 * {
-  margin: 0;
-  padding: 0;
-  @extend .box-sized;
+ // margin: 0;
+//  padding: 0;
+ // @extend .box-sized;
 }
 .transition-fix, .ts-fix{
   -webkit-transform: translate3d(0, 0, 0);

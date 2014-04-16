@@ -1,14 +1,32 @@
-app.controller('HomeController', ['$scope', '$timeout', function HomeController($scope, $timeout) {
+app.controller('HomeController', ['$scope', '$timeout','apiService', 'CmsConfig', function HomeController($scope, $timeout,apiService,CmsConfig) {
     /* structure hack for intellij structrue panel */
-    var self = this;
-    if (true)self = $scope;
+    var scope = this;
+    if (true)scope = $scope;
     /* end */
 
-    self.initialize = function () {
+    scope.initialize = function () {
         log("8","HomeController","initialize", "");
+
+        scope.tables = CmsConfig.tables;//app.CmsConfig.tables;
+        scope.setTitle("");
+
+        getRowCount();
         toggleListeners(true);
     };
 
+    var getRowCount = function() {
+        var keys =[]
+        for(var key in scope.tables){
+            keys.push(key);
+        }
+        apiService.get_row_count({tables:keys}, function(response){
+            log("22","getRowCount","", response);
+            for(var k in response.result){
+
+                scope.tables[k].count = response.result[k];
+            }
+        })
+    }
 
     var toggleListeners = function (enable) {
         // remove listeners
@@ -16,12 +34,12 @@ app.controller('HomeController', ['$scope', '$timeout', function HomeController(
         if (!enable)return;
         // add listeners.
 
-        self.$on('$destroy', onDestroy)
+        scope.$on('$destroy', onDestroy)
     };
     var onDestroy = function (enable) {
         toggleListeners(false);
     };
 
-    self.initialize();
-    return self;
+    scope.initialize();
+    return scope;
 }]);

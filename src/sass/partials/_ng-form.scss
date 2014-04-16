@@ -6,14 +6,16 @@ ng-dirty
 */
 $red : #FA787E;
 $green : #78FA89;
-form .ng-invalid.ng-dirty {
-  background-color: $red;
-  background-color: rgba($red, 0.3);
+form.state-submitted .ng-invalid {
+  //background-color: $red;
+  //background-color: rgba($red, 0.3);
+  color:#a94442;
+  background-color:#f2dede;
 }
 
-form .ng-valid.ng-dirty {
-  background-color: $green;
-  background-color: rgba($green, 0.3);
+form.state-submitted .ng-valid {
+ // background-color: $green;
+ // background-color: rgba($green, 0.3);
 }
 
 //form.submitted .validation{
@@ -23,8 +25,43 @@ form .validation{
   color:white;
   display: block;
 }
-form.ng-pristine{
+form.ng-pristine, form:not(.state-submitted){
   .validation{
     display: none;
+  }
+}
+form.state-submitted .errors{
+
+  color:#a94442;
+  background-color:#f2dede;
+  margin: 15px 0px;
+  padding: 15px 0px;
+
+  p{
+
+  }
+}
+
+form .fail{
+
+  color:#a94442;
+  background-color:#f2dede;
+  margin: 15px 0px;
+  padding: 15px 0px;
+
+  p{
+    font-size: 18px;
+  }
+}
+
+form .success{
+
+  color: #468847;
+  background-color:#dff0d8;
+  margin: 15px 0px;
+  padding: 15px 0px;
+
+  p{
+    font-size: 18px;
   }
 }

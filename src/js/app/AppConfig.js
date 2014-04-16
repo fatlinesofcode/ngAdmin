@@ -7,6 +7,7 @@
 
     self.templatePath="./";
     self.testMode = false;
+    self.uploadPath = "../uploads/";
 
     app.AppConfig = AppConfig;
 

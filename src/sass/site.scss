@@ -1,11 +1,14 @@
 @import "_normalize.scss";
 @import "_foundation.scss";
+@import "partials/icons";
 @import "partials/_reset";
 @import "partials/_functions";
 @import "partials/_mixins";
 @import "partials/_font";
 //@import "partials/_ng-animate";
-//@import "partials/_ng-form";
+@import "partials/_ng-form";
+@import "partials/icons";
+@import "partials/svg-loading";
 //@import "partials/_preload";
 @import "_app";
 //@import "partials/_debug";

@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* normalize.css v2.1.2 | MIT License | git.io/normalize */
 /* ========================================================================== HTML5 display definitions ========================================================================== */
 /** Correct `block` display not defined in IE 8/9. */
@@ -344,7 +343,7 @@ input.error, textarea.error { margin-bottom: 0; }
 
 label.error { color: #f04124; }
 
-.row { width: 100%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0; max-width: 100%; *zoom: 1; }
+.row { width: 100%; margin-left: auto; margin-right: auto; margin-top: 0; margin-bottom: 0; max-width: 60rem; *zoom: 1; }
 .row:before, .row:after { content: " "; display: table; }
 .row:after { clear: both; }
 .row.collapse > .column, .row.collapse > .columns { padding-left: 0; padding-right: 0; float: left; }
@@ -574,6 +573,13 @@ label.error { color: #f04124; }
 .inline-list { margin: 0 auto 1.0625rem auto; margin-left: -1.375rem; margin-right: 0; padding: 0; list-style: none; overflow: hidden; }
 .inline-list > li { list-style: none; float: left; margin-left: 1.375rem; display: block; }
 .inline-list > li > * { display: block; }
+
+table { background: white; margin-bottom: 1.25rem; border: solid 1px #dddddd; }
+table thead, table tfoot { background: whitesmoke; }
+table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td { padding: 0.5rem 0.625rem 0.625rem; font-size: 0.875rem; font-weight: bold; color: #222222; text-align: left; }
+table tr th, table tr td { padding: 0.5625rem 0.625rem; font-size: 0.875rem; color: #222222; }
+table tr.even, table tr.alt, table tr:nth-of-type(even) { background: #f9f9f9; }
+table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td { display: table-cell; line-height: 1.125rem; }
 
 .text-left { text-align: left !important; }
 
@@ -902,7 +908,7 @@ a { text-decoration: none; }
 @font-face { font-family: 'museo_sans500'; src: url('../font/museosans_500.eot'); src: url('../font/museosans_500.eot?#iefix') format('embedded-opentype'), url('../font/museosans_500.woff') format('woff'), url('../font/museosans_500.ttf') format('truetype'), url('../font/museosans_500.svg#museo_sans500') format('svg'); font-weight: normal; font-style: normal;
 }
 */
-body { background: white; font-size: 12px; margin: 0; padding: 0; line-height: 1.4; }
+body { background: #f7f6f4; font-size: 12px; margin: 0; padding: 0; line-height: 1.4; font-family: Interstate,Arial,Sans-Serif; color: dimgrey; }
 
 h2, h3, h4 { font-size: 2em; font-weight: normal; }
 
@@ -915,3 +921,25 @@ h2, h3, h4 { font-size: 2em; font-weight: normal; }
 @media only screen and (orientation: portrait) { html > body { }
 }
 */
+body > footer { padding: 1.875rem 3.125rem; text-align: right; color: dimgrey; }
+
+body > header { background: white; }
+
+h1 { font-size: 30px; color: black; padding: 1.875rem 0.625rem; }
+
+h2 { font-size: 26px; color: dimgrey; padding: 1.875rem 0.625rem; }
+
+.view table { width: 100%; }
+.view th { font-size: 14px; color: #999999; font-weight: normal; padding: 0.625rem 0.625rem; }
+.view td { font-size: 20px; color: dimgrey; padding: 1.25rem 0.625rem; }
+.view td a { color: #3498ea; }
+.view table tr.even, .view table tr.alt, .view table tr:nth-of-type(2n) { background: #ececec; }
+
+#edit { /* hello there */ }
+#edit fieldset { padding: 1.25rem 1.875rem; border-color: #e2ded6; }
+#edit textarea { min-height: 100px; }
+#edit label { font-size: 20px; color: dimgrey; padding-top: 5px; }
+#edit label small { margin: 0; font-style: italic; }
+#edit label.rdio { display: inline-block !important; }
+#edit .row.field { background-color: #ebebea; margin-bottom: 10px; padding-top: 10px; }
+#edit .cke_chrome { margin-bottom: 20px; }

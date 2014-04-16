@@ -17,22 +17,34 @@ module.exports = function (grunt) {
                     'src/js/app/booter.js',
                     'src/js/app/AppConfig.js',
                     'src/js/app/filters.js',
+                    'src/js/app/directives/ngCkeditor.js',
+                    'src/js/app/directives/ngFileReaderImage.js',
+                    'src/js/app/directives/ngInputName.js',
+                    'src/js/app/directives/ngSvgLoading.js',
                     'src/js/app/routeService.js',
                     'src/js/app/apiService.js',
                     'src/js/app/eventService.js',
                     'src/js/app/AppController.js',
+                    'src/js/app/EditController.js',
+                    'src/js/app/ListController.js',
+                    'src/js/app/LoginController.js',
                     'src/js/app/HomeController.js'
                 ],
-                dest: 'www/assets/js/build/<%= pkg.name %>-app-src.js',
-                build: 'www/assets/js/build/<%= pkg.name %>-app-min.js'
+                dest: 'www/_cms/assets/js/build/<%= pkg.name %>-app-src.js',
+                build: 'www/_cms/assets/js/build/<%= pkg.name %>-app-min.js'
             },
             plugins: {
                 src: [
-                    'src/js/plugins/log.js'
+                    'src/js/components/angular-deferred-bootstrap/angular-deferred-bootstrap.js',
+                    'src/js/plugins/log.js',
+                    'src/js/utils/md5.js',
+                    'src/js/plugins/canvasResize/binaryajax.js',
+                    'src/js/plugins/canvasResize/exif.js',
+                    'src/js/plugins/canvasResize/canvasResize.js'
 
                 ],
-                dest: 'www/assets/js/build/<%= pkg.name %>-plugins-src.js',
-                build: 'www/assets/js/build/<%= pkg.name %>-plugins-min.js'
+                dest: 'www/_cms/assets/js/build/<%= pkg.name %>-plugins-src.js',
+                build: 'www/_cms/assets/js/build/<%= pkg.name %>-plugins-min.js'
             }
         },
         uglify: {
@@ -44,6 +56,21 @@ module.exports = function (grunt) {
             plugins: {
                 files: {
                     '<%= concat.plugins.build %>': ['<%= concat.plugins.dest %>']
+                }
+            }
+        },
+        qunit: {
+            files: ['test/**/*.www']
+        },
+        jshint: {
+            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
+            options: {
+                // options here to override JSHint defaults
+                globals: {
+                    jQuery: true,
+                    console: true,
+                    module: true,
+                    document: true
                 }
             }
         },
@@ -60,10 +87,17 @@ module.exports = function (grunt) {
             index: {
                 files: [
                     // includes files within path
-                    {expand: false, src: 'www/index.html', dest: 'www/index-dev.html', filter: 'isFile'}
+                    {expand: false, src: 'www/_cms/index.html', dest: 'www/_cms/index.dev.html', filter: 'isFile'}
+
+                ]
+            },
+            cms: {
+                files: [
+                    {expand: true, src: ['www/_cms/**'], dest: '/Users/phil/Sites/git/clients/project/'}
 
                 ]
             }
+
         },
 
         compass: {
@@ -78,8 +112,8 @@ module.exports = function (grunt) {
                 // Task-specific options go here.
             },
             files: {
-                src: 'www/assets/css/site.css',
-                dest: 'www/assets/css/site.css'
+                src: 'www/_cms/assets/css/site.css',
+                dest: 'www/_cms/assets/css/site.css'
             }
         },
 
@@ -88,12 +122,12 @@ module.exports = function (grunt) {
                 options: {
                     startTag: '<!--SCRIPTS-->',
                     endTag: '<!--SCRIPTS END-->',
-                    fileTmpl: '<script src="../%s"></script>',
+                    fileTmpl: '<script src="../../%s"></script>',
                     appRoot: ''
                 },
                 files: {
                     // Target-specific file lists and/or options go here.
-                    'www/index-dev.html': ['<%= concat.plugins.src %>', '<%= concat.app.src %>']
+                    'www/_cms/index.dev.html': ['<%= concat.plugins.src %>', '<%= concat.app.src %>']
                 }
             }
         },
@@ -103,16 +137,41 @@ module.exports = function (grunt) {
             dynamic: {                         // Another target
                 files: [{
                     expand: true,                  // Enable dynamic expansion
-                    cwd: 'www/assets/img/',                   // Src matches are relative to this path
+                    cwd: 'www/_cms/assets/img/',                   // Src matches are relative to this path
                     src: ['**/*.{png,jpg,gif}'],   // Actual patterns to match
-                    dest: 'www/assets/img/'                  // Destination path prefix
+                    dest: 'www/_cms/assets/img/'                  // Destination path prefix
                 }]
             }
         },
 
-        exec: {
-            test:  "ls -l"
-        }
+        minjson: {
+            build: {
+                files: {
+                    'www/_cms/assets/config.min.json':
+                        'www/_cms/assets/config.json'
+                }
+            }
+        },
+
+
+        protractor: {
+            options: {
+                configFile: "node_modules/protractor/referenceConf.js", // Default config file
+                keepAlive: true, // If false, the grunt process stops when the test fails.
+                noColor: false, // If true, protractor will not use colors in its output.
+                args: {
+                    // Arguments passed to the command
+                }
+            },
+            your_target: {
+                options: {
+                    configFile: "test/protractor-conf.js", // Target-specific config file
+                    args: {} // Target-specific arguments
+                }
+            },
+        },
+
+
 
 
     });
@@ -128,13 +187,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-autoprefixer');
-    grunt.loadNpmTasks('grunt-contrib-imagemin');
-    grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-minjson');
+    grunt.loadNpmTasks('grunt-protractor-runner');
 
-    grunt.registerTask('build', ['newer:copy', 'newer:scriptlinker', 'newer:concat', 'newer:uglify', 'autoprefixer']);
+    grunt.registerTask('build', ['newer:copy:index', 'newer:scriptlinker', 'newer:concat', 'newer:uglify', 'autoprefixer']);
 
-    grunt.registerTask('dist', ['copy', 'scriptlinker', 'concat', 'uglify', 'compass', 'autoprefixer']);
+    grunt.registerTask('dist', ['copy:index', 'scriptlinker', 'concat', 'uglify', 'compass', 'autoprefixer']);
 
+    grunt.registerTask('test', ['protractor']);
 
+    grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
 
 };

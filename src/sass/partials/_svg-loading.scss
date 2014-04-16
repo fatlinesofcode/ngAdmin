@@ -1,0 +1,36 @@
+[ng-svg-loading]{
+  background: transparent;
+  width: 64px;
+  height: 64px;
+  display: inline-block;
+  margin:0 auto;
+  svg{
+    fill:$primary-color;
+    max-width: 100% !important;
+    min-width: 100% !important;
+    max-height: 100% !important;
+    min-height: 100% !important;
+
+  }
+}
+.svg-loading-background{
+  color:rgba(white, 0.25);
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  &.sprite{
+    display: inline-block;
+    min-width: 50px;
+    min-height: 50px;
+    background: red;
+  }
+
+  &.balls{ background-image: url(../img/loading-balls.svg); }
+  &.bars{ background-image: url(../img/loading-bars.svg); }
+  &.bubbles{ background-image: url(../img/loading-bubbles.svg); }
+  &.cubes{ background-image: url(../img/loading-cubes.svg); }
+  &.cylon{ background-image: url(../img/loading-cylon.svg); }
+  &.spin{ background-image: url(../img/loading-spin.svg); }
+  &.bubbles{ background-image: url(../img/loading-spinning-bubbles.svg); }
+  &.spokes{ background-image: url(../img/loading-spokes.svg); }
+}

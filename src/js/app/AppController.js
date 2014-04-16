@@ -1,5 +1,5 @@
-app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeService','eventService',
-    function AppController($scope, $timeout, $rootScope, routeService, eventService) {
+app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeService','eventService', '$routeParams', 'apiService','$cookieStore','CmsConfig',
+    function AppController($scope, $timeout, $rootScope, routeService, eventService, $routeParams, apiService, $cookieStore, CmsConfig) {
 
         /* structure hack for intellij structrue panel */
         var scope = this;
@@ -8,9 +8,13 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
         scope.pageClass = '';
         scope.debug = $('body').hasClass('debug-enabled');
 
+        $rootScope.doctitle = "";
+
 
         scope.initialize = function () {
             log("8", "AppController", "initialize", "", routeService.currentRoute());
+
+            scope.config = CmsConfig;//app.CmsConfig;
 
             toggleListeners(true);
         };
@@ -45,7 +49,26 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
             eventService.emit(AppEvent.RUN_TEST, name)
         }
 
+        scope.setTitle = function(table, names) {
+            scope.currenttable = table;
+            if(angular.isArray(names))
+            scope.title = (names.join(" / "));
+            else
+            scope.title = "";
+
+            $rootScope.doctitle = scope.config.sitetitle
+            if(scope.currenttable)
+                $rootScope.doctitle +=" | " +scope.currenttable;
+            if(scope.title)
+                $rootScope.doctitle +=" | " +scope.title;
+        }
+
         var onRouteStart = function ($event, next, current) {
+            if(! scope.isLoggedIn()){
+                routeService.redirectTo('login');
+            }
+
+
             //  return;
             var n = 0, c = 0;
             if (next && current) {
@@ -60,6 +83,9 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
                 scope.viewAnimationDirection = n < c ? 'direction-right' : 'direction-left';
         }
 
+        scope.isLoggedIn = function() {
+            return ($cookieStore.get('loggedin') == 'yes')
+        }
 
 
         scope.initialize();

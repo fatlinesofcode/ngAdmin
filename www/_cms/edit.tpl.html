@@ -1,0 +1,117 @@
+<section id="edit" class="view">
+
+    <div class="row">
+        <div class="columns small-12" >
+
+            <div class="row loading" ng-if="! formdata">
+                <div class="columns small-12 text-center">
+                    <div ng-svg-loading="spin"> </div>
+                </div>
+            </div>
+
+            <div class="text-right" ng-show="formdata">
+                <button class="delete tiny" ng-if="id != 'add'" ng-click="delete(id, id)"  ng-disabled="processing">Delete</button>
+            </div>
+
+            <form ng-submit="save(formdata)" novalidate="" name="form" ng-class="'state-'+state" ng-show="formdata">
+
+                <fieldset>
+
+
+
+                    <div class="row field" ng-repeat="field in fields">
+                        <div class="small-3 columns">
+                            <label for="field-{{field.name}}" class="right inline">
+                                {{field.label}}<ng-switch on="field.type"><small ng-switch-when="image"><br/>({{field.width}}px * {{field.height}}px)</small>
+                                </ng-switch><span ng-if="field.required">*</span>
+                            </label>
+                        </div>
+                        <div class="small-9 columns">
+                        <ng-switch on="field.type">
+                            <!-- text -->
+                            <input ng-switch-when="text" type="text" id="field-{{field.name}}" ng-required="field.required"
+                                   ng-model="formdata[field.name]" ng-input-name="field.name" placeholder="{{field.label}}">
+                            <!-- checkbox -->
+                            <input ng-switch-when="checkbox" type="checkbox" id="field-{{field.name}}"  ng-required="field.required"
+                                   ng-model="formdata[field.name]"  placeholder="{{field.label}}"
+                                   ng-true-value="1" ng-false-value="0"
+                                    >
+                            <!-- radio -->
+                            <div ng-switch-when="radio">
+                                <label class="radio" for="field-{{field.name}}-{{val.label}}" ng-repeat="val in field.values">{{val.label}}
+                                <input type="radio"
+                                       id="field-{{field.name}}-{{val.label}}"  ng-required="field.required"
+                                       ng-model="formdata[field.name]"  placeholder="{{val.label}}"
+                                       ng-value="val.value"
+                                        >
+                                </label>
+                            </div>
+                            <!-- textarea -->
+                            <textarea ng-switch-when="textarea" id="field-{{field.name}}"  ng-required="field.required"
+                                      ng-model="formdata[field.name]" placeholder="{{field.label}}">
+
+                            </textarea>
+                            <!-- ckeditor -->
+                            <textarea ng-switch-when="ckeditor" id="field-{{field.name}}"  ng-required="field.required"
+                                      ng-ckeditor="ckeditorOptions"
+                                      ng-model="formdata[field.name]" placeholder="{{field.label}}">
+
+                            </textarea>
+                            <!-- image -->
+                            <div class="" ng-switch-when="image"
+                                 ng-file-reader-image="formdata[field.name]"
+                                 data-filename="formdata[field.name]"
+                                 data-resize-width="{{field.width}}"
+                                 data-resize-height="{{field.height}}"
+                                    >
+                            </div>
+
+                        </ng-switch>
+                        </div>
+                    </div>
+
+                    <div class="errors ng-cloak" ng-show="state == 'submitted' && form.$invalid">
+                    <div class="row">
+                        <div class="columns small-offset-3 small-9">
+                            <div >
+
+                                <!--
+                                <ul>
+                                   <li ng-repeat="(key,value) in form"> {{key}} {{value}} {{value.$invalid}}</li>
+                                </ul>
+                                    -->
+
+                                <p>
+                                    You must complete all mandatory fields.
+                                </p>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+
+                    <div class="row success" ng-show="state == 'complete' && form.$pristine">
+                        <div class="columns small-12 small-9 small-offset-3">
+                            <p>Saved !</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="columns small-9 small-offset-3">
+                            <a href="" class="button cancel" ng-click="cancel($event)" ng-disabled="processing">Cancel</a>
+                            <button type="submit"  ng-disabled="processing">Save</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+
+
+</section>

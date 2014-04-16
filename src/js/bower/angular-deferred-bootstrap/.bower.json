@@ -1,0 +1,15 @@
+{
+  "name": "angular-deferred-bootstrap",
+  "version": "0.0.3",
+  "main": "./angular-deferred-bootstrap.js",
+  "homepage": "https://github.com/philippd/bower-angular-deferred-bootstrap",
+  "_release": "0.0.3",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.3",
+    "commit": "ffd255ea3fae7ea85854c08ff5103b42272ed9aa"
+  },
+  "_source": "git://github.com/philippd/bower-angular-deferred-bootstrap.git",
+  "_target": "~0.0.1",
+  "_originalSource": "angular-deferred-bootstrap"
+}

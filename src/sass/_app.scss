@@ -1,0 +1,45 @@
+@import "partials/_config";
+
+body {
+  background: white;
+  font-size: $BASE_FONT_SIZE;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+header, footer {
+}
+
+h2, h3, h4 {
+  font-size: em(24);
+  font-weight: normal;
+  @extend .smooth-font;
+}
+
+.ie8 {
+  .warning-message {
+    color: white; text-align: center; background-color: black;
+    display: block;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    z-index: 1000;
+    a {
+      color: white;
+      text-decoration: underline;
+    }
+  }
+}
+
+/*
+@media #{$small} {
+  html, html > body {
+    min-width: 1024px;
+  }
+}
+@media #{$portrait} {
+  html > body {
+  }
+}
+*/

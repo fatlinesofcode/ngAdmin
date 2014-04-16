@@ -1,0 +1,30 @@
+/*
+ng-valid
+ng-invalid
+ng-pristine
+ng-dirty
+*/
+$red : #FA787E;
+$green : #78FA89;
+form .ng-invalid.ng-dirty {
+  background-color: $red;
+  background-color: rgba($red, 0.3);
+}
+
+form .ng-valid.ng-dirty {
+  background-color: $green;
+  background-color: rgba($green, 0.3);
+}
+
+//form.submitted .validation{
+form .validation{
+  background-color: $red;
+  background-color: rgba($red, 0.95);
+  color:white;
+  display: block;
+}
+form.ng-pristine{
+  .validation{
+    display: none;
+  }
+}

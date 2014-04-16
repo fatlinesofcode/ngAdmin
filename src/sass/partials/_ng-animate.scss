@@ -1,0 +1,63 @@
+@import "_config.scss";
+$time : 0.3s;
+$delay : 0.1s;
+#app-view.animate-slide {
+  //position: absolute;
+  transform: translate3d(0%, 0px, 0px);
+  opacity: 1;
+
+  &.ng-leave {
+    transition: transform $time ease-in $delay;
+    transform: translate3d(0%, 0px, 0px);
+    &.ng-leave-active {
+      transform: translate3d(-100%, 0px, 0px);
+    }
+  }
+  &.ng-enter {
+    transition: transform $time ease-in $delay;
+    transform: translate3d(100%, 0px, 0px);
+    &.ng-enter-active {
+      transform: translate3d(0%, 0px, 0px);
+    }
+  }
+}
+.app-container.direction-start {
+  #app-view.animate-slide {
+    &.ng-leave {
+      transform: translate3d(0%, 0px, 0px);
+      &.ng-leave-active { transform: translate3d(0%, 0px, 0px); }
+    }
+    &.ng-enter {
+      transform: translate3d(0%, 0px, 0px);
+      transition: opacity $time linear 0.2s;
+      opacity: 0;
+      &.ng-enter-active { opacity:1; transform: translate3d(0%, 0px, 0px);  }
+    }
+  }
+}
+
+.app-container.direction-left {
+  #app-view.animate-slide {
+    &.ng-leave {
+      transform: translate3d(0%, 0px, 0px);
+      &.ng-leave-active { transform: translate3d(-100%, 0px, 0px); }
+    }
+    &.ng-enter {
+      transform: translate3d(100%, 0px, 0px);
+      &.ng-enter-active { transform: translate3d(0%, 0px, 0px);  }
+    }
+  }
+}
+.app-container.direction-right {
+  #app-view.animate-slide {
+    &.ng-leave.ng-leave-active {
+      transform: translate3d(100%, 0px, 0px);
+    }
+    &.ng-enter {
+      transform: translate3d(-100%, 0px, 0px);
+    }
+    &.ng-enter.ng-enter-active {
+      transform: translate3d(0%, 0px, 0px);
+    }
+  }
+}

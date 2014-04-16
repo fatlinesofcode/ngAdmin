@@ -1,0 +1,17 @@
+// FUNCTIONS
+
+// Pixels to EM
+// Description: Returns pixel value to ems base on base font size
+// Example: font-size: toEms(14px);;
+@function em($target, $context: $BASE_FONT_SIZE){
+  @if $target == 0 { @return 0 };
+  $target : $target + 0px;
+  @return $target / $context + 0em;
+}
+
+// Pixels to Percentage
+// Description: Returns Percentage Value of pixel value compared to context value
+// Example: @include toPercentage(120, 90);
+@function toPercentage($target, $context){
+  @return (($target/$context)*100%);
+}

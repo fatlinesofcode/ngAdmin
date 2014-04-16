@@ -1,0 +1,26 @@
+{
+  "name": "_html_templates",
+  "version": "0.0.0",
+  "authors": [
+    "phil <phil@frontside.com.au>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "src/js/bower/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-deferred-bootstrap": "~0.0.1",
+    "angular-cookies": "~1.2.15",
+    "angular-route": "~1.2.15",
+    "angular-animate": "~1.2.15",
+    "angular-resource": "~1.2.15",
+    "angular-mocks": "~1.2.15",
+    "angular": "~1.2.15",
+    "angular-touch": "~1.2.15",
+    "jquery": "~2.1.0"
+  }
+}

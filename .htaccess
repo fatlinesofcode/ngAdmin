@@ -6,14 +6,14 @@ AddType font/woff .woff
 
 <IfModule mod_rewrite.c>
 
-RewriteEngine On
-RewriteCond %{SERVER_NAME} =srv.re
-RewriteCond %{REQUEST_URI} !^/ngadmin/www/.*$
-RewriteRule ^(.*)$ /ngadmin/www/$1 [L]
+#RewriteEngine On
+#RewriteCond %{SERVER_NAME} =srv.re
+#RewriteCond %{REQUEST_URI} !^/ngadmin/www/.*$
+#RewriteRule ^(.*)$ /ngadmin/www/$1 [L]
 
 #herokuapp
-RewriteCond %{SERVER_NAME} =ngadmin.herokuapp.com
-RewriteCond %{REQUEST_URI} !^/www/.*$
-RewriteRule ^(.*)$ /www/$1 [L]
+#RewriteCond %{SERVER_NAME} =ngadmin.herokuapp.com
+#RewriteCond %{REQUEST_URI} !^/www/.*$
+#RewriteRule ^(.*)$ /www/$1 [L]
 
 </IfModule>

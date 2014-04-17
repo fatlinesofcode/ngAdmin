@@ -36,8 +36,9 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
 
         log("11","EditController","initialize", $routeParams.table);
 
-        if(scope.id){
+        if(scope.id ){
             loadFormData();
+        }else{
         }
         toggleListeners(true);
     };
@@ -75,7 +76,9 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
 
         apiService.save_row(data, function(response){
             scope.state = "complete";
-                loadFormData();
+            scope.id = response.id;
+            log("80","EditController","save_row", response);
+            loadFormData();
            // scope.processing = false;
           //  routeService.redirectTo(['list', scope.table])
         })

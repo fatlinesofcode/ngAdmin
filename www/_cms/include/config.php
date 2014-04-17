@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Australia/Melbourne');
 
 class AppConfig{
         public static $facebook_app_id;

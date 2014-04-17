@@ -11,11 +11,13 @@ app.factory('apiService', ['$resource','$cookieStore','routeService', 'CmsConfig
     //self.facebook.premissions = "email";
     //self.facebook.debugMode = false;
 
-    var url =  "./include/api.php";
+    var url =  "./include/ngAdminAPI.php/:action";
     _resource = $resource(url, {}, {
         update:{method:'JSON'},
-        post:{method:'post'}
+        post:{method:'post'},
+        put:{method:'put'}
     });
+
 
     self.loggedin = false;
 

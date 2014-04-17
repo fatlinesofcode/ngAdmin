@@ -1,33 +1,16 @@
-# Build sites files (in project root folder)
-========================================
-### Install project dependencies
-    $ npm install --save-dev
+# ngAdmin
+> AngularJS DB / CMS admin panel
 
-### Build html, js, css (in project root folder)
-    $ grunt dist
+## Features
+* simple login and authentication
+* php json api built with Slim & Idiorm
+* list rows in a table
+* edit row
+* save / update row
+* delete row
+* customise fields to edit
+* * input, textarea, wysiwyg, image upload field types
 
-## Deployment
-    Deploy 'www' folder to webserver
-----------------------------------------
 
 ## Prerequisites
 ### Ruby, Node, Grunt, Sass & Compass, bower
-----------------------------------------
-
-### Install node
-    http://nodejs.org/
-
-### Install grunt
-    $ sudo npm install -g grunt
-
-## Install Sass & Compass
-    $ gem install sass
-    $ gem install compass
-
-## Install bower & components
-    $ npm install bower
-    $ bower install
-
-## Viewing this document
-* Install the Markdown Preview Plus extension for Chrome.
-* See https://chrome.google.com/webstore/detail/markdown-preview-plus/febilkbfcbhebfnokafefeacimjdckgl

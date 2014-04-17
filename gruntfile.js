@@ -59,21 +59,6 @@ module.exports = function (grunt) {
                 }
             }
         },
-        qunit: {
-            files: ['test/**/*.www']
-        },
-        jshint: {
-            files: ['Gruntfile.js', 'src/**/*.js', 'test/**/*.js'],
-            options: {
-                // options here to override JSHint defaults
-                globals: {
-                    jQuery: true,
-                    console: true,
-                    module: true,
-                    document: true
-                }
-            }
-        },
 
         watch: {
             options: { nospawn: true },
@@ -171,6 +156,12 @@ module.exports = function (grunt) {
             },
         },
 
+        exec: {
+            gitpush : 'git push origin master',
+            pushgithub : 'git push github master',
+            pushheroku : 'git push heroku master'
+        }
+
 
 
 
@@ -189,6 +180,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-minjson');
     grunt.loadNpmTasks('grunt-protractor-runner');
+    grunt.loadNpmTasks('grunt-exec');
 
     grunt.registerTask('build', ['newer:copy:index', 'newer:scriptlinker', 'newer:concat', 'newer:uglify', 'autoprefixer']);
 
@@ -196,6 +188,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', ['protractor']);
 
-    grunt.registerTask('default', ['jshint', 'qunit', 'concat', 'uglify']);
+    grunt.registerTask('deploy', ['exec:gitpush', 'exec:pushgithub', 'exec:pushheroku']);
 
 };

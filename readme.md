@@ -12,5 +12,9 @@
 * * input, textarea, wysiwyg, image upload field types
 
 
+## Example
+> http://ngadmin.herokuapp.com/www/_cms/
+> > login : admin / admin
+
 ## Prerequisites
 ### Ruby, Node, Grunt, Sass & Compass, bower

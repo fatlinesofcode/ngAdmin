@@ -3,7 +3,7 @@
 
 ## Features
 * simple login and authentication
-* php json api built with Slim & Idiorm
+* php rest api built with Slim & Idiorm
 * list rows in a table
 * edit row
 * save / update row

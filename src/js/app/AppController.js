@@ -64,9 +64,9 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
         }
 
         var onRouteStart = function ($event, next, current) {
-            if(! scope.isLoggedIn()){
-                routeService.redirectTo('login');
-            }
+         //   if(! scope.isLoggedIn()){
+         //       routeService.redirectTo('login');
+         //   }
 
 
             //  return;

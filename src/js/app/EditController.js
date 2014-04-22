@@ -13,6 +13,9 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
     scope.processing = false;
 
 
+    var activeResource = null;
+
+
     scope.initialize = function () {
         scope.table = $routeParams.table;
         scope.id = $routeParams.id;
@@ -69,38 +72,40 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
             return;
         }
 
-        data.table = scope.table;
-        data.id = scope.id;
+      //  data.table = scope.table;
+      //  data.id = scope.id;
+
+
 
         scope.processing = true;
 
-        apiService.save_row(data, function(response){
+        var onComplete = function(response){
             scope.state = "complete";
             scope.id = response.id;
             log("80","EditController","save_row", response);
             loadFormData();
-           // scope.processing = false;
-          //  routeService.redirectTo(['list', scope.table])
-        })
+        }
+
+        if(scope.id == 'add')
+        apiService.create({action:scope.table}, data, onComplete)
+        else
+        apiService.update({action:scope.table, id:scope.id}, data, onComplete)
     }
     var loadFormData = function() {
         scope.formdata = null;
        // return;
-        apiService.get_row(scope.table,{id: scope.id}, function(response){
+        activeResource = apiService.retrieve({action:scope.table, id:scope.id}, function(response){
             scope.formdata = {};
-            for(var i in response){
+            for(var i in response.result){
 
                 for (var j = 0; j < scope.fields.length; j++) {
                     var obj = scope.fields[j];
                     if(obj.name == i){
-                        log("21","EditController","response", i, response[i], scope.fields.indexOf(i));
-                        scope.formdata[i]  = response[i];
+                        scope.formdata[i]  = response.result[i];
                     }
                 }
 
             }
-
-            log("82","getFormData","formdata",  scope.formdata);
 
             scope.setTitle(scope.table, [ 'edit', scope.formdata.title]);
 
@@ -113,11 +118,11 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
     scope.delete = function(title, id) {
         var proceed = confirm("Are you sure you want to delete '"+title+"'?");
         if(proceed){
-            var data = {};
-            data.table = scope.table;
-            data.id = id;
+           // var data = {};
+          //  data.table = scope.table;
+          //  data.id = id;
             scope.processing = true;
-            apiService.delete_row(data, function(response){
+            apiService.delete({action:scope.table, id:scope.id}, function(response){
                 scope.processing = false;
                 scope.redirectTo('list/'+scope.table);
             })

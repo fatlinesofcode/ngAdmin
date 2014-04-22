@@ -5,6 +5,7 @@ app.controller('LoginController', ['$scope', '$timeout', 'apiService','routeServ
     /* end */
 
     scope.initialize = function () {
+        apiService.logout();
         toggleListeners(true);
     };
 
@@ -22,7 +23,6 @@ app.controller('LoginController', ['$scope', '$timeout', 'apiService','routeServ
     };
 
     scope.save = function(data) {
-        log("30","LoginController","save", data, "valid", scope.form);
 
         // return;
         scope.state = "submitted";
@@ -35,11 +35,9 @@ app.controller('LoginController', ['$scope', '$timeout', 'apiService','routeServ
 
 
         apiService.login(data, function(response){
-            log("36","LoginController","login", response);
-           // $cookieStore.put('loggedin', response.result? 'yes' : 'no');
-           // apiService.loggedin=response.result;
             scope.processing =false;
             scope.form.$setPristine();
+            log("41","LoginController","", apiService.loggedin);
             if(apiService.loggedin)
             routeService.redirectTo(['home'])
             else{

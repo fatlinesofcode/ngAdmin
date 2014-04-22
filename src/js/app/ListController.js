@@ -25,12 +25,14 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
             var obj = scope.fields[i];
             keys.push(obj.name);
         }
-        var data = {fields:keys};
+        var data = {action:scope.table, fields: angular.toJson(keys)};
         data.order_by = scope.order_by;
-        apiService.get_rows(scope.table, data, function(response){
+        apiService.retrieve(data, function(response){
             scope.listdata = response.result;
             scope.processing = false;
         });
+
+
     }
 
     var toggleListeners = function (enable) {
@@ -45,41 +47,24 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
         toggleListeners(false);
     };
     scope.toggleActive = function(obj){
-        var data = {};
-        data.table = scope.table;
-        data.id = obj.id;
-        data.active = !obj.active;
-        scope.processing = true;
-
-        apiService.save_row(data, function(response){
-            loadData();
-        })
+        apiService.update({action:scope.table, id:obj.id}, {active:!obj.active}, loadData)
     }
     scope.delete = function(title, id) {
         var proceed = confirm("Are you sure you want to delete '"+title+"'?");
         if(proceed){
-            var data = {};
-            data.table = scope.table;
-            data.id = id;
-            apiService.delete_row(data, function(response){
-                loadData();
-            })
+            apiService.delete({action:scope.table, id:id}, loadData)
         }
 
     }
     scope.onInputChange= function(id, field, newVal)  {
 
         var data = {};
-        data.table = scope.table;
-        data.id = id;
         data[field] = newVal;
 
         $timeout.cancel(_inputChangeTimeout);
         _inputChangeTimeout = $timeout(function(){
             scope.processing = true;
-            apiService.save_row(data, function(response){
-                loadData();
-            })
+            apiService.update({action:scope.table, id:id}, data, loadData)
         },500);
 
     }

@@ -5,9 +5,8 @@ app.controller('HomeController', ['$scope', '$timeout','apiService', 'CmsConfig'
     /* end */
 
     scope.initialize = function () {
-        log("8","HomeController","initialize", "");
 
-        scope.tables = CmsConfig.tables;//app.CmsConfig.tables;
+        scope.tables = CmsConfig.tables;
         scope.setTitle("");
 
         getRowCount();
@@ -15,14 +14,12 @@ app.controller('HomeController', ['$scope', '$timeout','apiService', 'CmsConfig'
     };
 
     var getRowCount = function() {
-        var keys =[]
+        var tablenames =[];
         for(var key in scope.tables){
-            keys.push(key);
+            tablenames.push(key);
         }
-        apiService.get_row_count({tables:keys}, function(response){
-            log("22","getRowCount","", response);
+        apiService.retrieve({action:'count', tables:angular.toJson(tablenames)}, function(response){
             for(var k in response.result){
-
                 scope.tables[k].count = response.result[k];
             }
         })

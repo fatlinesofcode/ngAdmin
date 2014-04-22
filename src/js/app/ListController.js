@@ -25,7 +25,7 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
             var obj = scope.fields[i];
             keys.push(obj.name);
         }
-        var data = {action:scope.table, fields: angular.toJson(keys)};
+        var data = {table:scope.table, fields: angular.toJson(keys)};
         data.order_by = scope.order_by;
         apiService.retrieve(data, function(response){
             scope.listdata = response.result;
@@ -47,12 +47,12 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
         toggleListeners(false);
     };
     scope.toggleActive = function(obj){
-        apiService.update({action:scope.table, id:obj.id}, {active:!obj.active}, loadData)
+        apiService.update({table:scope.table, id:obj.id}, {active:!obj.active}, loadData)
     }
     scope.delete = function(title, id) {
         var proceed = confirm("Are you sure you want to delete '"+title+"'?");
         if(proceed){
-            apiService.delete({action:scope.table, id:id}, loadData)
+            apiService.delete({table:scope.table, id:id}, loadData)
         }
 
     }
@@ -64,7 +64,7 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
         $timeout.cancel(_inputChangeTimeout);
         _inputChangeTimeout = $timeout(function(){
             scope.processing = true;
-            apiService.update({action:scope.table, id:id}, data, loadData)
+            apiService.update({table:scope.table, id:id}, data, loadData)
         },500);
 
     }

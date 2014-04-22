@@ -408,7 +408,7 @@ app.factory('routeService', ['$timeout', '$location', function ($timeout, $locat
 
 
 }]);
-app.factory('apiService', ['$resource','$cookieStore','routeService', 'CmsConfig', '$http', function ($resource,$cookieStore,routeService,CmsConfig, $http) {
+app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', function ($resource,$cookieStore,CmsConfig, $http) {
     /* structure hack for intellij structrue panel */
     service = null;
     var self = service;
@@ -416,9 +416,7 @@ app.factory('apiService', ['$resource','$cookieStore','routeService', 'CmsConfig
     /* end */
     var _resource;
 
-
-
-    var url =  "./include/api.php/:method/:action/:id";
+    var url =  "./include/api.php/:action/:table/:id";
     _resource = $resource(url, {}, {
         post:{method:'post'},
         put:{method:'put'}
@@ -440,60 +438,37 @@ app.factory('apiService', ['$resource','$cookieStore','routeService', 'CmsConfig
         alert("Oops...\n an error occurred communicating with the API." + msg);
     }
 
-
-
     self.delete = function(request, onCompleteCallback, onErrorCallback) {
-        onErrorCallback = onErrorCallback || onApiError;
-        onCompleteCallback = onCompleteCallback || function(){};
-        request.method = request.method || 'rows';
-
-        return _resource.delete(request, function(response){
-            if(response.error){
-                onApiError(response.error);
-            }
-            if(response.badlogin){
-                self.logout();
-            }
-            onCompleteCallback(response);
-        }, onErrorCallback);
+        return self.apicall('delete', request, null, onCompleteCallback, onErrorCallback);
     }
 
     self.retrieve = function(request, onCompleteCallback, onErrorCallback) {
-        onErrorCallback = onErrorCallback || onApiError;
-        onCompleteCallback = onCompleteCallback || function(){};
-        request.method = request.method || 'rows';
+        return self.apicall('get', request, null, onCompleteCallback, onErrorCallback);
 
-        return _resource.get(request, function(response){
-            if(response.error){
-                onApiError(response.error);
-            }
-            if(response.badlogin){
-                self.logout();
-            }
-            onCompleteCallback(response);
-        }, onErrorCallback);
     }
 
     self.update = function(request, data, onCompleteCallback, onErrorCallback) {
-        onErrorCallback = onErrorCallback || onApiError;
-        onCompleteCallback = onCompleteCallback || function(){};
-        request.method = request.method || 'rows';
-        return _resource.put(request, data, function(response){
-            if(response.error){
-                onApiError(response.error);
-            }
-            if(response.badlogin){
-                self.logout();
-            }
-            onCompleteCallback(response);
-        }, onErrorCallback);
+        return self.apicall('put', request, data, onCompleteCallback, onErrorCallback);
+
     }
 
     self.create = function(request, data, onCompleteCallback, onErrorCallback) {
+        return self.apicall('save', request, data, onCompleteCallback, onErrorCallback);
+
+    }
+    self.post = function(request, data, onCompleteCallback, onErrorCallback) {
+        return self.apicall('post', request, data, onCompleteCallback, onErrorCallback);
+
+    }
+
+    self.apicall = function(method, request, data, onCompleteCallback, onErrorCallback) {
         onErrorCallback = onErrorCallback || onApiError;
         onCompleteCallback = onCompleteCallback || function(){};
-        request.method = request.method || 'rows';
-        return _resource.save(request, data, function(response){
+        request.action = request.action || 'rows';
+
+
+
+        var onComplete = function(response){
             if(response.error){
                 onApiError(response.error);
             }
@@ -501,9 +476,18 @@ app.factory('apiService', ['$resource','$cookieStore','routeService', 'CmsConfig
                 self.logout();
             }
             onCompleteCallback(response);
-        }, onErrorCallback);
-    }
+        };
+        var onError = function(response){
+            onErrorCallback(response);
+        };
 
+        if(method == 'get' || method == 'delete'){
+            return _resource[method](request, onComplete, onError);
+        }else{
+            return _resource[method](request, data, onComplete, onError);
+        }
+
+    }
 
     self.logout = function() {
         self.loggedin=false;
@@ -511,17 +495,17 @@ app.factory('apiService', ['$resource','$cookieStore','routeService', 'CmsConfig
     }
 
     self.login = function(data, onCompleteCallback, onErrorCallback) {
-        onErrorCallback = onErrorCallback || onApiError;
-        onCompleteCallback = onCompleteCallback || function(){};
         data = angular.copy(data);
         if(data.password){
             data.password = MD5(data.password);
         }
-        _resource.post({'action' : 'login'}, data, function(response){
+        
+        self.post({action:'login'}, data, function(response){
             self.loggedin=response.result;
             self.setAuthToken(response.token);
             onCompleteCallback(response);
-        }, onErrorCallback);
+        });
+        
     }
     self.setAuthToken = function(token) {
         $cookieStore.put('AuthToken', token);
@@ -757,14 +741,14 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
         }
 
         if(scope.id == 'add')
-        apiService.create({action:scope.table}, data, onComplete)
+        apiService.create({table:scope.table}, data, onComplete)
         else
-        apiService.update({action:scope.table, id:scope.id}, data, onComplete)
+        apiService.update({table:scope.table, id:scope.id}, data, onComplete)
     }
     var loadFormData = function() {
         scope.formdata = null;
        // return;
-        activeResource = apiService.retrieve({action:scope.table, id:scope.id}, function(response){
+        activeResource = apiService.retrieve({table:scope.table, id:scope.id}, function(response){
             scope.formdata = {};
             for(var i in response.result){
 
@@ -792,7 +776,7 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
           //  data.table = scope.table;
           //  data.id = id;
             scope.processing = true;
-            apiService.delete({action:scope.table, id:scope.id}, function(response){
+            apiService.delete({table:scope.table, id:scope.id}, function(response){
                 scope.processing = false;
                 scope.redirectTo('list/'+scope.table);
             })
@@ -836,7 +820,7 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
             var obj = scope.fields[i];
             keys.push(obj.name);
         }
-        var data = {action:scope.table, fields: angular.toJson(keys)};
+        var data = {table:scope.table, fields: angular.toJson(keys)};
         data.order_by = scope.order_by;
         apiService.retrieve(data, function(response){
             scope.listdata = response.result;
@@ -858,12 +842,12 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
         toggleListeners(false);
     };
     scope.toggleActive = function(obj){
-        apiService.update({action:scope.table, id:obj.id}, {active:!obj.active}, loadData)
+        apiService.update({table:scope.table, id:obj.id}, {active:!obj.active}, loadData)
     }
     scope.delete = function(title, id) {
         var proceed = confirm("Are you sure you want to delete '"+title+"'?");
         if(proceed){
-            apiService.delete({action:scope.table, id:id}, loadData)
+            apiService.delete({table:scope.table, id:id}, loadData)
         }
 
     }
@@ -875,7 +859,7 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
         $timeout.cancel(_inputChangeTimeout);
         _inputChangeTimeout = $timeout(function(){
             scope.processing = true;
-            apiService.update({action:scope.table, id:id}, data, loadData)
+            apiService.update({table:scope.table, id:id}, data, loadData)
         },500);
 
     }
@@ -954,7 +938,7 @@ app.controller('HomeController', ['$scope', '$timeout','apiService', 'CmsConfig'
         for(var key in scope.tables){
             tablenames.push(key);
         }
-        apiService.retrieve({action:'count', tables:angular.toJson(tablenames)}, function(response){
+        apiService.retrieve({table:'count', tables:angular.toJson(tablenames)}, function(response){
             for(var k in response.result){
                 scope.tables[k].count = response.result[k];
             }

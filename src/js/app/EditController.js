@@ -87,14 +87,14 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
         }
 
         if(scope.id == 'add')
-        apiService.create({action:scope.table}, data, onComplete)
+        apiService.create({table:scope.table}, data, onComplete)
         else
-        apiService.update({action:scope.table, id:scope.id}, data, onComplete)
+        apiService.update({table:scope.table, id:scope.id}, data, onComplete)
     }
     var loadFormData = function() {
         scope.formdata = null;
        // return;
-        activeResource = apiService.retrieve({action:scope.table, id:scope.id}, function(response){
+        activeResource = apiService.retrieve({table:scope.table, id:scope.id}, function(response){
             scope.formdata = {};
             for(var i in response.result){
 
@@ -122,7 +122,7 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
           //  data.table = scope.table;
           //  data.id = id;
             scope.processing = true;
-            apiService.delete({action:scope.table, id:scope.id}, function(response){
+            apiService.delete({table:scope.table, id:scope.id}, function(response){
                 scope.processing = false;
                 scope.redirectTo('list/'+scope.table);
             })

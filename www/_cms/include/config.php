@@ -7,7 +7,7 @@ class AppConfig{
         public static $APP_URL;
         public static $deviceType;
         public static $deviceVersion;
-        public static $db_dsn ='sqlite:../../../sql/angularcms.sqlite';
+        public static $db_dsn ='sqlite:/';
         public static $db_user='root';
         public static $db_pass='root';
         public static $admin_user='admin';
@@ -16,6 +16,7 @@ class AppConfig{
         public static $uploadPath='../../uploads/';
     }
 
+AppConfig::$db_dsn ='sqlite:'.__DIR__.'/../../../sql/angularcms.sqlite';
 
 
 

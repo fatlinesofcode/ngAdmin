@@ -14,19 +14,19 @@ class Api
         $this->app->run();
     }
     /*
-     * Crud
+     * Crud routes
      */
     function setup_routes(){
         //login
         $this->app->post('/login',  array($this, '__login') );
         //create
         $this->app->post('/rows/:table',  array($this, 'authorize'), array($this, '__save_row') );
-        //update
-        $this->app->put('/rows/:table/:id',  array($this, 'authorize'), array($this, '__save_row') );
         //retrieve
         $this->app->get('/rows/count',  array($this, 'authorize'), array($this, '__get_row_count') );
         $this->app->get('/rows/:table',  array($this, 'authorize'), array($this, '__get_rows') );
         $this->app->get('/rows/:table/:id', array($this, 'authorize'), array($this, '__get_row') );
+        //update
+        $this->app->put('/rows/:table/:id',  array($this, 'authorize'), array($this, '__save_row') );
         //delete
         $this->app->delete('/rows/:table/:id',  array($this, 'authorize'), array($this, '__delete_row') );
 

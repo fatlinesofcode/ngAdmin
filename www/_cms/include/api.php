@@ -2,10 +2,6 @@
 require_once "vendor/autoload.php";
 require_once "config.php";
 
-function test($table){
-    print_r("test". $table);
-}
-
 class Api
 {
     function __construct()
@@ -23,22 +19,17 @@ class Api
     function setup_routes(){
         //login
         $this->app->post('/login',  array($this, '__login') );
-
-        $this->app->get('/rows/count',  array($this, 'authorize'), array($this, '__get_row_count') );
         //create
         $this->app->post('/rows/:table',  array($this, 'authorize'), array($this, '__save_row') );
         //update
         $this->app->put('/rows/:table/:id',  array($this, 'authorize'), array($this, '__save_row') );
         //retrieve
+        $this->app->get('/rows/count',  array($this, 'authorize'), array($this, '__get_row_count') );
         $this->app->get('/rows/:table',  array($this, 'authorize'), array($this, '__get_rows') );
         $this->app->get('/rows/:table/:id', array($this, 'authorize'), array($this, '__get_row') );
         //delete
         $this->app->delete('/rows/:table/:id',  array($this, 'authorize'), array($this, '__delete_row') );
 
-        return;
-        $this->app->get("/rows/:table", function () {
-            print_r('rows');
-        });
     }
     function authorize(){
 
@@ -55,11 +46,12 @@ class Api
         }
         else{
             $result = false;
-
         }
 
         if(! $result){
-            $this->app->halt(403, 'Not authorized.');
+            $this->echo_json(array('error' => 'Not authorized'), 403);
+          //  $this->app->halt(403, 'Not authorized.');
+            $this->app->stop();
         }
 
         return $result;
@@ -209,14 +201,9 @@ class Api
     function get_json_payload($as_array = false){
         return json_decode($this->app->request()->getBody(), $as_array ? true : false);
     }
-    function get_json_post()
-    {
-        return json_decode(file_get_contents('php://input'), true);
-    }
+
 
     function echo_json($response="", $status_code=200) {
-        //$app = \Slim\Slim::getInstance();
-        // $app = Slim::getInstance();
         // Http response code
         $this->app->status($status_code);
 

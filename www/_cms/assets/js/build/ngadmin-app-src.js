@@ -433,35 +433,32 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
         return _resource;
     };
 
-    var onApiError = function (msg) {
-        msg = msg ? "\n" + msg : "";
-        alert("Oops...\n an error occurred communicating with the API." + msg);
-    }
+
 
     self.delete = function(request, onCompleteCallback, onErrorCallback) {
-        return self.apicall('delete', request, null, onCompleteCallback, onErrorCallback);
+        return self.call('delete', request, null, onCompleteCallback, onErrorCallback);
     }
 
     self.retrieve = function(request, onCompleteCallback, onErrorCallback) {
-        return self.apicall('get', request, null, onCompleteCallback, onErrorCallback);
+        return self.call('get', request, null, onCompleteCallback, onErrorCallback);
 
     }
 
     self.update = function(request, data, onCompleteCallback, onErrorCallback) {
-        return self.apicall('put', request, data, onCompleteCallback, onErrorCallback);
+        return self.call('put', request, data, onCompleteCallback, onErrorCallback);
 
     }
 
     self.create = function(request, data, onCompleteCallback, onErrorCallback) {
-        return self.apicall('save', request, data, onCompleteCallback, onErrorCallback);
+        return self.call('save', request, data, onCompleteCallback, onErrorCallback);
 
     }
     self.post = function(request, data, onCompleteCallback, onErrorCallback) {
-        return self.apicall('post', request, data, onCompleteCallback, onErrorCallback);
+        return self.call('post', request, data, onCompleteCallback, onErrorCallback);
 
     }
 
-    self.apicall = function(method, request, data, onCompleteCallback, onErrorCallback) {
+    self.call = function(method, request, data, onCompleteCallback, onErrorCallback) {
         onErrorCallback = onErrorCallback || onApiError;
         onCompleteCallback = onCompleteCallback || function(){};
         request.action = request.action || 'rows';
@@ -470,10 +467,7 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
 
         var onComplete = function(response){
             if(response.error){
-                onApiError(response.error);
-            }
-            if(response.badlogin){
-                self.logout();
+                onApiError(response);
             }
             onCompleteCallback(response);
         };
@@ -487,6 +481,27 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
             return _resource[method](request, data, onComplete, onError);
         }
 
+    }
+
+    var onApiError = function (response) {
+        var msg =  "";
+        if(response){
+            if(response.status) {
+                msg += "\nStatus: "+response.status;
+            }
+            if(response.error) {
+                msg += "\nError: "+response.error;
+            }
+            if(response.data){
+                if(response.data.error){
+                    msg += "\nError: "+ response.data.error;
+                }
+                else{
+                    msg += "\nData: "+response.data;
+                }
+            }
+        }
+        alert("Oops...\nan error occurred communicating with the API." + msg);
     }
 
     self.logout = function() {

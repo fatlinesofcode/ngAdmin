@@ -14,27 +14,20 @@
 
 
     <header>
-        <div class="row">
-            <div class="columns small-12 ng-cloak">
+        <div class="container">
                 <h1>
                     <span ng-if="config.clientLogo"><img ng-src="{{config.clientLogo}}" title="{{config.sitetitle}}"/></span>
                     <span ng-if="!config.clientLogo">{{config.sitetitle}}</span>
                     </h1>
-            </div>
         </div>
-
     </header>
 
 
 
     <div class="app-container" ng-cloak>
-        <div class="inner">
+        <div class="inner container">
 
-            <div class="row">
-                <div class="columns small-12">
                     <h2><a ng-href="#!/home">{{config.sitetitle}}</a> <span ng-if="currenttable">/ <a ng-href="#!/list/{{currenttable}}">{{currenttable}}</a></span> <span ng-if="title">/ {{title}}</span></h2>
-                </div>
-            </div>
 
             <div ng-view class="app-view"></div>
         </div>
@@ -43,10 +36,8 @@
 
     <footer>
 
-        <div class="row">
-            <div class="columns small-12 ng-cloak">
+        <div class="container text-right">
                 {{config.sitetitle}} &copy; {{config.client}}
-            </div>
         </div>
     </footer>
 

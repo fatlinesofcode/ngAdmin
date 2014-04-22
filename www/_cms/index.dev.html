@@ -14,27 +14,20 @@
 
 
     <header>
-        <div class="row">
-            <div class="columns small-12 ng-cloak">
+        <div class="container">
                 <h1>
                     <span ng-if="config.clientLogo"><img ng-src="{{config.clientLogo}}" title="{{config.sitetitle}}"/></span>
                     <span ng-if="!config.clientLogo">{{config.sitetitle}}</span>
                     </h1>
-            </div>
         </div>
-
     </header>
 
 
 
     <div class="app-container" ng-cloak>
-        <div class="inner">
+        <div class="inner container">
 
-            <div class="row">
-                <div class="columns small-12">
                     <h2><a ng-href="#!/home">{{config.sitetitle}}</a> <span ng-if="currenttable">/ <a ng-href="#!/list/{{currenttable}}">{{currenttable}}</a></span> <span ng-if="title">/ {{title}}</span></h2>
-                </div>
-            </div>
 
             <div ng-view class="app-view"></div>
         </div>
@@ -43,10 +36,8 @@
 
     <footer>
 
-        <div class="row">
-            <div class="columns small-12 ng-cloak">
+        <div class="container text-right">
                 {{config.sitetitle}} &copy; {{config.client}}
-            </div>
         </div>
     </footer>
 
@@ -77,7 +68,10 @@
 
 <!-- js builds -->
 
-<!--SCRIPTS--><script src="../../src/js/components/angular-deferred-bootstrap/angular-deferred-bootstrap.js"></script><script src="../../src/js/plugins/log.js"></script><script src="../../src/js/utils/md5.js"></script><script src="../../src/js/plugins/canvasResize/binaryajax.js"></script><script src="../../src/js/plugins/canvasResize/exif.js"></script><script src="../../src/js/plugins/canvasResize/canvasResize.js"></script><script src="../../src/js/app/booter.js"></script><script src="../../src/js/app/AppConfig.js"></script><script src="../../src/js/app/filters.js"></script><script src="../../src/js/app/directives/ngCkeditor.js"></script><script src="../../src/js/app/directives/ngFileReaderImage.js"></script><script src="../../src/js/app/directives/ngInputName.js"></script><script src="../../src/js/app/directives/ngSvgLoading.js"></script><script src="../../src/js/app/routeService.js"></script><script src="../../src/js/app/apiService.js"></script><script src="../../src/js/app/eventService.js"></script><script src="../../src/js/app/AppController.js"></script><script src="../../src/js/app/EditController.js"></script><script src="../../src/js/app/ListController.js"></script><script src="../../src/js/app/LoginController.js"></script><script src="../../src/js/app/HomeController.js"></script><!--SCRIPTS END-->
+<!--SCRIPTS-->
+<script src="assets/js/build/ngadmin-plugins-min.js"></script>
+<script src="assets/js/build/ngadmin-app-min.js"></script>
+<!--SCRIPTS END-->
 
 
 

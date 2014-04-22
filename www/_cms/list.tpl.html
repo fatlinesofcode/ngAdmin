@@ -1,14 +1,12 @@
 <section id="list" class="view">
     <div class="row">
-        <div class="columns small-12 text-right">
+        <div class="col-sml-12 text-right">
 
                 <a class="button" ng-href="#!/edit/{{table}}/add">Add</a>
 
         </div>
     </div>
-    <div class="row">
-        <div class="columns small-12">
-            <table>
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th ng-repeat="field in fields">{{field.label}}</th>
@@ -25,15 +23,17 @@
                 <tr ng-repeat="row in listdata" >
                     <td ng-repeat="field in fields" ng-class="field.name">
                         <ng-switch on="field.type">
-                            <!-- checkbox -->
-                            <input ng-switch-when="text" type="text" id="field-{{field.name}}" ng-disabled="processing"
+                            <!-- order box -->
+                            <input class="form-control"
+                                    ng-switch-when="text" type="text" id="field-{{field.name}}" ng-disabled="processing"
                                    ng-model="row[field.name]" ng-input-name="field.name"
                                    ng-change="onInputChange(row.id, field.name, row[field.name])"
                                     >
 
 
                             <!-- checkbox -->
-                            <input ng-switch-when="checkbox" type="checkbox" id="field-{{field.name}}"
+                            <input class=""
+                                    ng-switch-when="checkbox" type="checkbox" id="field-{{field.name}}"
                                    ng-model="row[field.name]"
                                    ng-disabled="processing"
                                    ng-true-value="1" ng-false-value="0"
@@ -47,16 +47,14 @@
                     </td>
 
                     <td class="text-right">
-                        <a class="f-icon fi-page-edit" title="edit" ng-href="#!/edit/{{table}}/{{row.id}}"></a>
+                        <a class="glyphicon glyphicon-edit" title="edit" ng-href="#!/edit/{{table}}/{{row.id}}"></a>
                         <span class="separator">|</span>
-                        <a class="f-icon fi-x" title="delete" ng-click="delete(row.title || row.name || row.id, row.id)"></a></td>
+                        <a class="glyphicon glyphicon-remove" title="delete" ng-click="delete(row.title || row.name || row.id, row.id)"></a></td>
                 </tr>
 
                 </tbody>
             </table>
 
 
-        </div>
-    </div>
 
 </section>

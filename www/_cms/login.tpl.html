@@ -1,31 +1,29 @@
 <section id="login" class="view">
 
-    <div class="row">
-        <div class="columns small-12">
 
-            <form ng-submit="save(formdata)" novalidate="" name="form" ng-class="'state-'+state">
+            <form class="form-horizontal" ng-submit="save(formdata)" novalidate="" name="form" ng-class="'state-'+state">
                 <fieldset>
-                    <div class="row field">
-                        <div class="small-3 columns">
-                            <label for="field-username" class="right inline">
+                    <div class="form-group field">
+                            <label for="field-username" class="col-sm-3 control-label">
                                 Username
                             </label>
-                        </div>
-                        <div class="small-9 columns">
-                            <input id="field-username" type="text" required="required"  ng-disabled="processing"
+                        <div class="col-sm-9">
+                            <input id="field-username"
+                                   class="form-control"
+                                   type="text" required="required"  ng-disabled="processing"
                                    ng-model="formdata.username" name="username" placeholder="Username" />
 
                         </div>
                     </div>
 
-                    <div class="row field">
-                        <div class="small-3 columns">
-                            <label for="field-username" class="right inline">
+                    <div class="form-group field">
+                            <label for="field-username" class="col-sm-3 control-label">
                                 Password
                             </label>
-                        </div>
-                        <div class="small-9 columns">
-                            <input id="field-password" type="password" required="required"  ng-disabled="processing"
+                        <div class="col-sm-9">
+                            <input id="field-password"
+                                   class="form-control"
+                                   type="password" required="required"  ng-disabled="processing"
                                    ng-model="formdata.password" name="password" placeholder="Password" />
 
                         </div>
@@ -33,7 +31,7 @@
 
                     <div class="errors ng-cloak" ng-show="state == 'submitted' && form.$invalid">
                         <div class="row">
-                            <div class="columns small-12 text-center">
+                            <div class="col-sm-12 text-center">
                                 <div >
 
                                     <p>
@@ -50,7 +48,7 @@
 
                     <div class="fail ng-cloak" ng-show="state == 'invalid' &&form.$pristine">
                         <div class="row">
-                            <div class="columns small-12 text-center">
+                            <div class="col-sm-12 text-center">
                                 <div >
 
                                     <p>
@@ -64,15 +62,13 @@
                     </div>
 
                     <div class="row">
-                        <div class="columns small-12 text-center">
-                            <button type="submit" ng-disabled="processing">Login</button>
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="submit" class="btn btn-primary" ng-disabled="processing">Login</button>
                         </div>
                     </div>
                 </fieldset>
             </form>
 
-        </div>
-    </div>
 
 
 </section>

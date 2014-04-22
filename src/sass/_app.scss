@@ -34,17 +34,9 @@ h2, h3, h4 {
   }
 }
 
-/*
-@media #{$small} {
-  html, html > body {
-    min-width: 1024px;
-  }
+.container{
 }
-@media #{$portrait} {
-  html > body {
-  }
-}
-*/
+
 body > footer{
   padding: rem-calc(30 50);
   text-align: right;
@@ -138,7 +130,7 @@ h2{
     background-color: transparent;
     width:50px;
     height:50px;
-    svg{ fill: $primary-color}
+    svg{ fill: black}
   }
 }
 #edit, #login{
@@ -184,7 +176,7 @@ h2{
   textarea{
     min-height: 100px;
   }
-  label{
+  label1{
     font-size: 20px;
     color:$_greytext;
     padding-top: 5px;

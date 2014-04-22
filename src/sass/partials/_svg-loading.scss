@@ -1,3 +1,4 @@
+$color : black;
 [ng-svg-loading]{
   background: transparent;
   width: 64px;
@@ -5,7 +6,7 @@
   display: inline-block;
   margin:0 auto;
   svg{
-    fill:$primary-color;
+    fill:$color;
     max-width: 100% !important;
     min-width: 100% !important;
     max-height: 100% !important;

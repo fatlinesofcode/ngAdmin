@@ -21,10 +21,10 @@
                 <tbody>
                 <!--ng-click="redirectTo('edit/'+table+'/row.id')" -->
                 <tr ng-repeat="row in listdata" >
-                    <td ng-repeat="field in fields" ng-class="field.name">
+                    <td ng-repeat="field in fields" ng-class="'tablecol-'+field.name">
                         <ng-switch on="field.type">
                             <!-- order box -->
-                            <input class="form-control"
+                            <input class="form-control input-sm"
                                     ng-switch-when="text" type="text" id="field-{{field.name}}" ng-disabled="processing"
                                    ng-model="row[field.name]" ng-input-name="field.name"
                                    ng-change="onInputChange(row.id, field.name, row[field.name])"

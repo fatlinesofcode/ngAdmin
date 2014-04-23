@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute', 'ngAnimate', 'ngResource', 'ngCookies']);
+var app = angular.module('ngAdmin', ['ngRoute', 'ngAnimate', 'ngResource', 'ngCookies']);
 // configure your app
 //app.factory('routeService', ['$timeout', '$location', function ($timeout, $location) {
 app.config(['$locationProvider',function ($locationProvider) {
@@ -9,7 +9,7 @@ app.config(['$locationProvider',function ($locationProvider) {
 
 deferredBootstrapper.bootstrap({
     element: document,
-    module: 'app',
+    module: 'ngAdmin',
     resolve: {
         CmsConfig: function ($http) {
             return $http.get('./assets/config.json');

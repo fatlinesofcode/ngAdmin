@@ -13,7 +13,7 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
     scope.processing = false;
 
 
-    var activeResource = null;
+    var _activeRecord = null;
 
 
     scope.initialize = function () {
@@ -94,7 +94,7 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
     var loadFormData = function() {
         scope.formdata = null;
        // return;
-        activeResource = apiService.retrieve({table:scope.table, id:scope.id}, function(response){
+        _activeRecord = apiService.retrieve({table:scope.table, id:scope.id}, function(response){
             scope.formdata = {};
             for(var i in response.result){
 

@@ -6,7 +6,7 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
     /* end */
     var _resource;
 
-    var url =  "./include/api.php/:action/:table/:id";
+    var url =  "./include/api.php/:action/:task/:table/:id";
     _resource = $resource(url, {}, {
         post:{method:'post'},
         put:{method:'put'}
@@ -51,7 +51,7 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
     self.call = function(method, request, data, onCompleteCallback, onErrorCallback) {
         onErrorCallback = onErrorCallback || onApiError;
         onCompleteCallback = onCompleteCallback || function(){};
-        request.action = request.action || 'rows';
+        request.action = request.action || 'records';
 
 
 

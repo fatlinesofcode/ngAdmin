@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute', 'ngAnimate', 'ngResource', 'ngCookies']);
+var app = angular.module('ngAdmin', ['ngRoute', 'ngAnimate', 'ngResource', 'ngCookies']);
 // configure your app
 //app.factory('routeService', ['$timeout', '$location', function ($timeout, $location) {
 app.config(['$locationProvider',function ($locationProvider) {
@@ -9,7 +9,7 @@ app.config(['$locationProvider',function ($locationProvider) {
 
 deferredBootstrapper.bootstrap({
     element: document,
-    module: 'app',
+    module: 'ngAdmin',
     resolve: {
         CmsConfig: function ($http) {
             return $http.get('./assets/config.json');
@@ -416,7 +416,7 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
     /* end */
     var _resource;
 
-    var url =  "./include/api.php/:action/:table/:id";
+    var url =  "./include/api.php/:action/:task/:table/:id";
     _resource = $resource(url, {}, {
         post:{method:'post'},
         put:{method:'put'}
@@ -461,7 +461,7 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
     self.call = function(method, request, data, onCompleteCallback, onErrorCallback) {
         onErrorCallback = onErrorCallback || onApiError;
         onCompleteCallback = onCompleteCallback || function(){};
-        request.action = request.action || 'rows';
+        request.action = request.action || 'records';
 
 
 
@@ -682,7 +682,7 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
     scope.processing = false;
 
 
-    var activeResource = null;
+    var _activeRecord = null;
 
 
     scope.initialize = function () {
@@ -763,7 +763,7 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
     var loadFormData = function() {
         scope.formdata = null;
        // return;
-        activeResource = apiService.retrieve({table:scope.table, id:scope.id}, function(response){
+        _activeRecord = apiService.retrieve({table:scope.table, id:scope.id}, function(response){
             scope.formdata = {};
             for(var i in response.result){
 
@@ -953,7 +953,7 @@ app.controller('HomeController', ['$scope', '$timeout','apiService', 'CmsConfig'
         for(var key in scope.tables){
             tablenames.push(key);
         }
-        apiService.retrieve({table:'count', tables:angular.toJson(tablenames)}, function(response){
+        apiService.retrieve({task:'count', tables:angular.toJson(tablenames)}, function(response){
             for(var k in response.result){
                 scope.tables[k].count = response.result[k];
             }

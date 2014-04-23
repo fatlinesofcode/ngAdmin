@@ -18,17 +18,17 @@ class Api
      */
     function setup_routes(){
         //login
-        $this->app->post('/login',  array($this, '__login') );
+        $this->app->post('/login',  array($this, '_login') );
         //create
-        $this->app->post('/rows/:table',  array($this, 'authorize'), array($this, '__save_row') );
+        $this->app->post('/records/:table',  array($this, 'authorize'), array($this, '_save_record') );
         //retrieve
-        $this->app->get('/rows/count',  array($this, 'authorize'), array($this, '__get_row_count') );
-        $this->app->get('/rows/:table',  array($this, 'authorize'), array($this, '__get_rows') );
-        $this->app->get('/rows/:table/:id', array($this, 'authorize'), array($this, '__get_row') );
+        $this->app->get('/records/count',  array($this, 'authorize'), array($this, '_get_record_count') );
+        $this->app->get('/records/:table',  array($this, 'authorize'), array($this, '_get_records') );
+        $this->app->get('/records/:table/:id', array($this, 'authorize'), array($this, '_get_record') );
         //update
-        $this->app->put('/rows/:table/:id',  array($this, 'authorize'), array($this, '__save_row') );
+        $this->app->put('/records/:table/:id',  array($this, 'authorize'), array($this, '_save_record') );
         //delete
-        $this->app->delete('/rows/:table/:id',  array($this, 'authorize'), array($this, '__delete_row') );
+        $this->app->delete('/records/:table/:id',  array($this, 'authorize'), array($this, '_delete_record') );
 
     }
     function authorize(){
@@ -65,7 +65,7 @@ class Api
         return $token === $this->createToken(AppConfig::$admin_user, md5(AppConfig::$admin_password));
     }
 
-    function __login()
+    function _login()
     {
         $data = $this->get_json_payload();
         $result = (strtolower($data->username) == AppConfig::$admin_user) && (strtolower($data->password) == md5(AppConfig::$admin_password));
@@ -75,7 +75,7 @@ class Api
 
 
 
-    function __save_row($table, $id = null)
+    function _save_record($table, $id = null)
     {
         $data = $this->get_json_payload(true);
 
@@ -88,34 +88,34 @@ class Api
 
         if ( is_null($id) ){
             $data['date_created'] = $this->get_date_time();
-            $row = ORM::for_table($table)->create();
+            $record = ORM::for_table($table)->create();
         }
         else{
-            $row = ORM::for_table($table)->find_one($id);
+            $record = ORM::for_table($table)->find_one($id);
 
         }
-        $row->set($data);
-        $result = $row->save();
-        $id = $row->id();
+        $record->set($data);
+        $result = $record->save();
+        $id = $record->id();
 
 
         $this->echo_json(array('result' => $result, 'id'=>$id));
     }
 
-    function __get_row($table, $id)
+    function _get_record($table, $id)
     {
 
-        $row = ORM::for_table($table)
+        $record = ORM::for_table($table)
             ->find_one($id);
 
-        if($row)
-        $this->echo_json(array('result' => $row->as_array()) );
+        if($record)
+        $this->echo_json(array('result' => $record->as_array()) );
         else{
             $this->echo_json();
         }
     }
 
-    function __get_rows($table = 'none'){
+    function _get_records($table = 'none'){
 
 
         $params = $this->app->request()->params();
@@ -127,7 +127,7 @@ class Api
         $order_by = isset($params['order_by']) ? $params['order_by'] : 'ID';
 
 
-        $rows = ORM::for_table($table)
+        $records = ORM::for_table($table)
             ->select_many($fields)
             ->order_by_asc($order_by)
             ->limit($limit)
@@ -135,13 +135,13 @@ class Api
             ->find_many();
 
         $result = [];
-        foreach($rows as $row) {
-            array_push($result, $row->as_array());
+        foreach($records as $record) {
+            array_push($result, $record->as_array());
         }
         $this->echo_json(array('result' => $result));
     }
 
-    function __get_row_count(){
+    function _get_record_count(){
 
         $tables = json_decode( $this->app->request()->params('tables'));
 
@@ -153,11 +153,11 @@ class Api
         $this->echo_json(array('result' => $result));
     }
 
-    function __delete_row($table, $id)
+    function _delete_record($table, $id)
     {
 
-        $row = ORM::for_table($table)->find_one($id);
-        $result = $row->delete();
+        $record = ORM::for_table($table)->find_one($id);
+        $result = $record->delete();
         $this->echo_json(array('result' => $result));
     }
 

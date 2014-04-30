@@ -1,4 +1,4 @@
-var app = angular.module('ngAdmin', ['ngRoute', 'ngAnimate', 'ngResource', 'ngCookies']);
+var app = angular.module('ngAdmin', ['ngRoute', 'ngAnimate', 'ngResource', 'ngCookies', 'ui.bootstrap']);
 // configure your app
 //app.factory('routeService', ['$timeout', '$location', function ($timeout, $location) {
 app.config(['$locationProvider',function ($locationProvider) {
@@ -574,8 +574,8 @@ app.factory('eventService', ['$rootScope', '$timeout', function ($rootScope, $ti
     return self;
 
 }]);
-app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeService','eventService', '$routeParams', 'apiService','$cookieStore','CmsConfig',
-    function AppController($scope, $timeout, $rootScope, routeService, eventService, $routeParams, apiService, $cookieStore, CmsConfig) {
+app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeService','eventService', '$routeParams', 'apiService','$cookieStore','CmsConfig','$modal',
+    function AppController($scope, $timeout, $rootScope, routeService, eventService, $routeParams, apiService, $cookieStore, CmsConfig, $modal) {
 
         /* structure hack for intellij structrue panel */
         var scope = this;
@@ -585,6 +585,8 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
         scope.debug = $('body').hasClass('debug-enabled');
 
         $rootScope.doctitle = "";
+
+        var _modalInstance;
 
 
         scope.initialize = function () {
@@ -663,11 +665,65 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
             return ($cookieStore.get('loggedin') == 'yes')
         }
 
+        scope.openModal = function (header, message, size) {
+            header = header || "Modal header";
+            message = message || "Modal message";
+            size = size || '';
+
+            if(_modalInstance){
+                _modalInstance.dismiss();
+            }
+
+            _modalInstance = $modal.open({
+                templateUrl: 'warningModal.html',
+                controller: 'ModalInstanceController',
+                size:size,
+                resolve: {
+                    data: function () {
+                        return {header:header,message:message};
+                    }
+                }
+            });
+            // clear the old instance once closed or dismissed
+            _modalInstance.result.then(function () {
+                _modalInstance = null;
+            }, function(){
+                _modalInstance = null;
+            })
+
+            return _modalInstance;
+        };
+
 
         scope.initialize();
         return scope;
     }]);
-app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'routeService','CmsConfig', function EditController($scope, $routeParams, apiService, routeService, CmsConfig) {
+app.controller('ModalInstanceController', ['$scope', '$modalInstance', 'data', function ModalInstanceController($scope, $modalInstance, data) {
+    /* structure hack for intellij structrue panel */
+    var scope = this;
+    if (true)scope = $scope;
+    /* end */
+
+    scope.initialize = function () {
+    };
+
+    scope.data = data;
+
+
+    scope.ok = function () {
+        $modalInstance.close(true);
+    };
+
+    scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+    };
+
+
+
+    scope.initialize();
+    return scope;
+}]);
+app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'routeService', 'CmsConfig', '$modal', '$timeout', function EditController($scope, $routeParams, apiService, routeService, CmsConfig, $modal, $timeout) {
     /* structure hack for intellij structrue panel */
     var scope = this;
     if (true)scope = $scope;
@@ -675,9 +731,12 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
 
     scope.formdata = null;
     scope.image = {};
- // scope.ngFileReaderImage = {'test':'test'};
+    // scope.ngFileReaderImage = {'test':'test'};
 
     scope.state = "";
+
+    scope.alerts = [
+    ];
 
     scope.processing = false;
 
@@ -694,8 +753,8 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
         scope.setTitle(scope.table, ['edit'])
 
         scope.ckeditorOptions = {
-            height : '150px',
-            format_tags : 'h3;div;p',
+            height: '150px',
+            format_tags: 'h3;div;p',
             toolbar_full: [
                 { name: 'basicstyles',
                     items: [ 'Bold', 'Italic', 'Underline' ] },
@@ -706,11 +765,11 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
             ]
         };
 
-        log("11","EditController","initialize", $routeParams.table);
+        log("11", "EditController", "initialize", $routeParams.table);
 
-        if(scope.id ){
+        if (scope.id) {
             loadFormData();
-        }else{
+        } else {
         }
         toggleListeners(true);
     };
@@ -727,50 +786,52 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
     var onDestroy = function (enable) {
         toggleListeners(false);
     };
-    scope.setImage = function(img) {
-        log("51","EditController","setImage", "");
+    scope.setImage = function (img) {
+        log("51", "EditController", "setImage", "");
     }
 
-    scope.save = function(data) {
-        log("30","EditController","save", data, "valid", scope.form);
+    scope.save = function (data) {
+        log("30", "EditController", "save", data, "valid", scope.form);
 
-       // return;
+        // return;
         scope.state = "submitted";
 
-        if(scope.form.$invalid){
+        if (scope.form.$invalid) {
             return;
         }
 
-      //  data.table = scope.table;
-      //  data.id = scope.id;
-
+        //  data.table = scope.table;
+        //  data.id = scope.id;
 
 
         scope.processing = true;
 
-        var onComplete = function(response){
+        var onComplete = function (response) {
             scope.state = "complete";
+            scope.alerts = [
+                { type: 'success', msg: 'Saved!' }
+            ];
             scope.id = response.id;
-            log("80","EditController","save_row", response);
+            log("80", "EditController", "save_row", response);
             loadFormData();
         }
 
-        if(scope.id == 'add')
-        apiService.create({table:scope.table}, data, onComplete)
+        if (scope.id == 'add')
+            apiService.create({table: scope.table}, data, onComplete)
         else
-        apiService.update({table:scope.table, id:scope.id}, data, onComplete)
+            apiService.update({table: scope.table, id: scope.id}, data, onComplete)
     }
-    var loadFormData = function() {
-        scope.formdata = null;
-       // return;
-        _activeRecord = apiService.retrieve({table:scope.table, id:scope.id}, function(response){
+    var loadFormData = function () {
+        //  scope.formdata = null;
+        // return;
+        _activeRecord = apiService.retrieve({table: scope.table, id: scope.id}, function (response) {
             scope.formdata = {};
-            for(var i in response.result){
+            for (var i in response.result) {
 
                 for (var j = 0; j < scope.fields.length; j++) {
                     var obj = scope.fields[j];
-                    if(obj.name == i){
-                        scope.formdata[i]  = response.result[i];
+                    if (obj.name == i) {
+                        scope.formdata[i] = response.result[i];
                     }
                 }
 
@@ -784,26 +845,38 @@ app.controller('EditController', ['$scope', '$routeParams', 'apiService', 'route
         })
     }
 
-    scope.delete = function(title, id) {
-        var proceed = confirm("Are you sure you want to delete '"+title+"'?");
-        if(proceed){
-           // var data = {};
-          //  data.table = scope.table;
-          //  data.id = id;
-            scope.processing = true;
-            apiService.delete({table:scope.table, id:scope.id}, function(response){
-                scope.processing = false;
-                scope.redirectTo('list/'+scope.table);
-            })
-        }
+    scope.delete = function (title, id) {
+        var modal = scope.openModal('Warning', "Are you sure you want to delete '" + title + "'?", 'sm');
+        modal.result.then(function (confirmed) {
+            if (confirmed) {
+                scope.processing = true;
+                apiService.delete({table: scope.table, id: scope.id}, function (response) {
+                    scope.processing = false;
+                    scope.redirectTo('list/' + scope.table);
+                })
+            }
+        }, function () {
+        });
+
+
 
     }
-    scope.cancel = function() {
-        scope.redirectTo('list/'+scope.table);
+
+
+    scope.cancel = function () {
+        scope.redirectTo('list/' + scope.table);
     }
-    scope.hello = function() {
-        log("121","EditController","hello", "");
+    scope.hello = function () {
+        log("121", "EditController", "hello", "");
     }
+
+    scope.addAlert = function () {
+        scope.alerts.push({msg: "Another alert!"});
+    };
+
+    scope.closeAlert = function (index) {
+        scope.alerts.splice(index, 1);
+    };
 
     scope.initialize();
     return scope;
@@ -860,10 +933,15 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
         apiService.update({table:scope.table, id:obj.id}, {active:!obj.active}, loadData)
     }
     scope.delete = function(title, id) {
-        var proceed = confirm("Are you sure you want to delete '"+title+"'?");
-        if(proceed){
-            apiService.delete({table:scope.table, id:id}, loadData)
-        }
+
+        var modal = scope.openModal('Warning', "Are you sure you want to delete '" + title + "'?", 'sm');
+        modal.result.then(function (confirmed) {
+            if(confirmed){
+                apiService.delete({table:scope.table, id:id}, loadData)
+            }
+        });
+
+
 
     }
     scope.onInputChange= function(id, field, newVal)  {
@@ -888,6 +966,9 @@ app.controller('LoginController', ['$scope', '$timeout', 'apiService','routeServ
     if (true)scope = $scope;
     /* end */
 
+    scope.alerts = [
+    ];
+
     scope.initialize = function () {
         apiService.logout();
         toggleListeners(true);
@@ -907,11 +988,12 @@ app.controller('LoginController', ['$scope', '$timeout', 'apiService','routeServ
     };
 
     scope.save = function(data) {
-
+        scope.alerts = [];
         // return;
         scope.state = "submitted";
 
         if(scope.form.$invalid){
+            scope.alerts = [ { type: 'danger', msg: 'You must enter your username and password.' } ];
             return;
         }
 
@@ -926,9 +1008,15 @@ app.controller('LoginController', ['$scope', '$timeout', 'apiService','routeServ
             routeService.redirectTo(['home'])
             else{
                 scope.state = "invalid"
+
+                scope.alerts = [ { type: 'danger', msg: 'Invalid username or password.' } ];
             }
         })
     }
+
+    scope.closeAlert = function (index) {
+        scope.alerts.splice(index, 1);
+    };
 
     scope.initialize();
     return scope;

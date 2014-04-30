@@ -25,6 +25,7 @@ module.exports = function (grunt) {
                     'src/js/app/apiService.js',
                     'src/js/app/eventService.js',
                     'src/js/app/AppController.js',
+                    'src/js/app/ModalInstanceController.js',
                     'src/js/app/EditController.js',
                     'src/js/app/ListController.js',
                     'src/js/app/LoginController.js',
@@ -35,7 +36,8 @@ module.exports = function (grunt) {
             },
             plugins: {
                 src: [
-                    'src/js/components/angular-deferred-bootstrap/angular-deferred-bootstrap.js',
+                    'src/bower/angular-deferred-bootstrap/angular-deferred-bootstrap.js',
+                    'src/js/plugins/ui-bootstrap-tpls-0.11.0-SNAPSHOT.js',
                     'src/js/plugins/log.js',
                     'src/js/utils/md5.js',
                     'src/js/plugins/canvasResize/binaryajax.js',
@@ -167,20 +169,9 @@ module.exports = function (grunt) {
 
     });
 
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-contrib-qunit');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.loadNpmTasks('grunt-scriptlinker')
-    grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-newer');
-    grunt.loadNpmTasks('grunt-contrib-compass');
-    grunt.loadNpmTasks('grunt-contrib-sass');
-    grunt.loadNpmTasks('grunt-autoprefixer');
-    grunt.loadNpmTasks('grunt-minjson');
-    grunt.loadNpmTasks('grunt-protractor-runner');
-    grunt.loadNpmTasks('grunt-exec');
+
+
+    require('load-grunt-tasks')(grunt, {scope: 'devDependencies'});
 
     grunt.registerTask('build', ['newer:copy:index', 'newer:scriptlinker', 'newer:concat', 'newer:uglify', 'autoprefixer']);
 
@@ -189,5 +180,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['protractor']);
 
     grunt.registerTask('deploy', ['exec:gitpush', 'exec:pushgithub', 'exec:pushheroku']);
+
+    grunt.registerTask('default', ['dist']);
 
 };

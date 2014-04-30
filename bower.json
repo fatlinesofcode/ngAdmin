@@ -22,5 +22,8 @@
     "angular": "~1.2.15",
     "angular-touch": "~1.2.15",
     "jquery": "~2.1.0"
+  },
+  "devDependencies": {
+    "angular-bootstrap": "~0.10.0"
   }
 }

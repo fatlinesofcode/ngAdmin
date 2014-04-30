@@ -1,6 +1,8 @@
 <section id="edit" class="view">
 
 
+
+
             <div class="row loading" ng-if="! formdata">
                 <div class="col-sm-12 text-center">
                     <div ng-svg-loading="spin"> </div>
@@ -26,10 +28,14 @@
                         <div class="col-sm-9">
                         <ng-switch on="field.type">
                             <!-- text -->
-                            <input class="form-control" ng-switch-when="text" type="text" id="field-{{field.name}}" ng-required="field.required"
+                            <input class="form-control" ng-switch-when="text" type="text" id="field-{{field.name}}"
+                                   ng-disabled="processing"
+                                   ng-required="field.required"
                                    ng-model="formdata[field.name]" ng-input-name="field.name" placeholder="{{field.label}}">
                             <!-- checkbox -->
-                            <input ng-switch-when="checkbox" type="checkbox" id="field-{{field.name}}"  ng-required="field.required"
+                            <input ng-switch-when="checkbox" type="checkbox" id="field-{{field.name}}"
+                                   ng-disabled="processing"
+                                   ng-required="field.required"
                                    ng-model="formdata[field.name]"  placeholder="{{field.label}}"
                                    ng-true-value="1" ng-false-value="0"
                                     >
@@ -37,19 +43,26 @@
                             <div class="radio" ng-switch-when="radio">
                                 <label class="radio" for="field-{{field.name}}-{{val.label}}" ng-repeat="val in field.values">{{val.label}}
                                 <input type="radio"
-                                       id="field-{{field.name}}-{{val.label}}"  ng-required="field.required"
+                                       id="field-{{field.name}}-{{val.label}}"
+                                       ng-disabled="processing"
+                                       ng-required="field.required"
                                        ng-model="formdata[field.name]"  placeholder="{{val.label}}"
                                        ng-value="val.value"
                                         >
                                 </label>
                             </div>
                             <!-- textarea -->
-                            <textarea class="form-control" ng-switch-when="textarea" id="field-{{field.name}}"  ng-required="field.required"
+                            <textarea class="form-control" id="field-{{field.name}}"
+                                      ng-switch-when="textarea"
+                                      ng-required="field.required"
+                                      ng-disabled="processing"
                                       ng-model="formdata[field.name]" placeholder="{{field.label}}">
 
                             </textarea>
                             <!-- ckeditor -->
-                            <textarea ng-switch-when="ckeditor" id="field-{{field.name}}"  ng-required="field.required"
+                            <textarea ng-switch-when="ckeditor" id="field-{{field.name}}"
+                                      ng-required="field.required"
+                                      ng-disabled="processing"
                                       ng-ckeditor="ckeditorOptions"
                                       ng-model="formdata[field.name]" placeholder="{{field.label}}">
 
@@ -90,12 +103,12 @@
 
                     </div>
 
-                    <div class="row success" ng-show="state == 'complete' && form.$pristine">
+
+                    <div class="row">
                         <div class="col-sm-offset-3 col-sm-9">
-                            <p>Saved !</p>
+                            <alert ng-repeat="alert in alerts" class="animate-repeat" type="{{alert.type}}" close="closeAlert($index)">{{alert.type}} : {{alert.msg}}</alert>
                         </div>
                     </div>
-
 
 
                     <div class="row">

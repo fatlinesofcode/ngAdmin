@@ -1,4 +1,4 @@
-var app = angular.module('ngAdmin', ['ngRoute', 'ngAnimate', 'ngResource', 'ngCookies']);
+var app = angular.module('ngAdmin', ['ngRoute', 'ngAnimate', 'ngResource', 'ngCookies', 'ui.bootstrap']);
 // configure your app
 //app.factory('routeService', ['$timeout', '$location', function ($timeout, $location) {
 app.config(['$locationProvider',function ($locationProvider) {

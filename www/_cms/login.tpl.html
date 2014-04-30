@@ -29,37 +29,13 @@
                         </div>
                     </div>
 
-                    <div class="errors ng-cloak" ng-show="state == 'submitted' && form.$invalid">
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <div >
-
-                                    <p>
-                                        You must enter your username and password.
-                                    </p>
-
-
-
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <alert ng-repeat="alert in alerts" class="animate-repeat" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
                         </div>
-
                     </div>
 
-                    <div class="fail ng-cloak" ng-show="state == 'invalid' &&form.$pristine">
-                        <div class="row">
-                            <div class="col-sm-12 text-center">
-                                <div >
 
-                                    <p>
-                                        Invalid username or password.
-                                    </p>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
 
                     <div class="row">
                         <div class="col-sm-offset-3 col-sm-9">

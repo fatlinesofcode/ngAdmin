@@ -8,6 +8,8 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
         scope.pageClass = '';
         scope.debug = $('body').hasClass('debug-enabled');
 
+        scope.sidebarCollapsed = true;
+
         $rootScope.doctitle = "";
 
         var _modalInstance;

@@ -25,6 +25,7 @@ module.exports = function (grunt) {
                     'src/js/app/apiService.js',
                     'src/js/app/eventService.js',
                     'src/js/app/AppController.js',
+                    'src/js/app/SidebarController.js',
                     'src/js/app/ModalInstanceController.js',
                     'src/js/app/EditController.js',
                     'src/js/app/ListController.js',

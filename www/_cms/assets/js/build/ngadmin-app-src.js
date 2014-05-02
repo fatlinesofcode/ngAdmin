@@ -584,6 +584,8 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
         scope.pageClass = '';
         scope.debug = $('body').hasClass('debug-enabled');
 
+        scope.sidebarCollapsed = true;
+
         $rootScope.doctitle = "";
 
         var _modalInstance;
@@ -698,6 +700,33 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
         scope.initialize();
         return scope;
     }]);
+app.controller('SidebarController', ['$scope', 'CmsConfig', function SidebarController($scope, CmsConfig) {
+    /* structure hack for intellij structrue panel */
+    var scope = this;
+    if (true)scope = $scope;
+    /* end */
+
+    scope.initialize = function () {
+        scope.tables = CmsConfig.tables;
+        toggleListeners(true);
+    };
+
+
+    var toggleListeners = function (enable) {
+        // remove listeners
+
+        if (!enable)return;
+        // add listeners.
+
+        scope.$on('$destroy', onDestroy)
+    };
+    var onDestroy = function (enable) {
+        toggleListeners(false);
+    };
+
+    scope.initialize();
+    return scope;
+}]);
 app.controller('ModalInstanceController', ['$scope', '$modalInstance', 'data', function ModalInstanceController($scope, $modalInstance, data) {
     /* structure hack for intellij structrue panel */
     var scope = this;

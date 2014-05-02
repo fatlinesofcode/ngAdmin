@@ -1,0 +1,23 @@
+html, body {
+  height: 100%;
+
+}
+.tester{
+   display: none !important;
+}
+
+.page-wrap {
+  position:relative; /* needed for footer positioning*/
+  height:auto !important; /* real browsers */
+  min-height:100%; /* real browsers */
+}
+.main{
+  padding-bottom: $footer-height;
+
+}
+
+.footer{
+    position: absolute;
+  bottom:0;
+
+}

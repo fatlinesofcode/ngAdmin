@@ -1,3 +1,8 @@
+/*
+$border-radius-base:        0px;
+$border-radius-large:       0px;
+$border-radius-small:       0px;
+*/
 /* normalize.css v3.0.1 | MIT License | git.io/normalize */
 html { font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
 
@@ -1990,9 +1995,7 @@ button.close { padding: 0; cursor: pointer; background: transparent; border: 0; 
 */
 html, body { height: 100%; }
 
-.tester { display: none !important; }
-
-.page-wrap { position: relative; /* needed for footer positioning*/ height: auto !important; /* real browsers */ min-height: 100%; /* real browsers */ }
+.page-wrap { position: relative; height: auto !important; min-height: 100%; }
 
 .main { padding-bottom: 60px; }
 
@@ -2000,10 +2003,12 @@ html, body { height: 100%; }
 
 .main { padding-top: 121px; }
 
-@media (min-width: 768px) { .main { margin-left: 250px; padding-left: 20px; } }
+@media (min-width: 768px) { body.loggedin .main { margin-left: 250px; padding-left: 20px; } }
 .navbar-static-side ul li { border-bottom: solid 1px #e7e7e7; }
 
 .navbar-static-side { padding-top: 121px; z-index: 1; width: 100%; position: absolute; }
+
+body:not(.loggedin) nav .navbar-toggle, body:not(.loggedin) .navbar-static-side { display: none; }
 
 @media (min-width: 768px) { .navbar-static-side { width: 250px; height: 100%; border-right: 1px solid #e7e7e7; }
   .navbar-static-side .collapse { display: block !important; height: auto !important; } }
@@ -2048,3 +2053,5 @@ html, body { height: 100%; }
 .svg-loading-background.spin { background-image: url(../img/loading-spin.svg); }
 .svg-loading-background.bubbles { background-image: url(../img/loading-spinning-bubbles.svg); }
 .svg-loading-background.spokes { background-image: url(../img/loading-spokes.svg); }
+
+section#login .container { max-width: 400px; }

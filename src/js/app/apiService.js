@@ -58,6 +58,8 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
         var onComplete = function(response){
             if(response.error){
                 onApiError(response);
+            }else{
+                self.loggedin=true;
             }
             onCompleteCallback(response);
         };

@@ -2,7 +2,7 @@
   padding-top: $navbar-height + 1px;
 }
 @media (min-width: $screen-sm-min) {
-  .main {
+  body.loggedin .main {
     margin-left: 250px;
     padding-left: 20px;
   }

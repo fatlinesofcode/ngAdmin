@@ -16,23 +16,37 @@
 
 </head>
 
-<body ng-controller="AppController" ng-class="pageClass">
+<body ng-controller="AppController"
+      ng-class="{'loggedin': isLoggedIn()}"
+        >
 <div class="page-wrap">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" ng-click="sidebarCollapsed = !sidebarCollapsed">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="" href="index.html">
-                <h1>
-                <span ng-if="config.clientLogo"><img ng-src="{{config.clientLogo}}"
-                                                     title="{{config.sitetitle}}"/></span>
-                    <span ng-if="!config.clientLogo">{{config.sitetitle}}</span>
-                </h1>
-            </a>
+            <div class="row">
+                <div class="col-xs-9">
+
+                    <a class="" href="#!/home">
+                        <h1 ng-cloak>
+                <span ng-if="config.clientLogo"><img
+                        class="img-responsive"
+                        ng-src="{{config.clientLogo}}"
+                        title="{{config.sitetitle}}"/></span>
+                            <span ng-if="!config.clientLogo">{{config.sitetitle}}</span>
+                        </h1>
+                    </a>
+
+                </div>
+                <div class="col-xs-3">
+                    <button type="button" class="navbar-toggle" ng-click="sidebarCollapsed = !sidebarCollapsed">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
+
+
         </div>
 
     </nav>
@@ -41,20 +55,27 @@
     <div class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse" data-collapse="sidebarCollapsed" ng-controller="SidebarController">
             <ul class="nav" id="side-menu">
+                <li>
+                    <a ng-href="#!/home">Dashboard</a>
+                </li>
 
                 <li ng-repeat="(key, row) in tables">
                     <a ng-href="#!/list/{{key}}">{{row.title}}</a>
                 </li>
 
+                <li>
+                    <a ng-href="#!/logout">Logout</a>
+                </li>
 
             </ul>
         </div>
     </div>
 
     <div class="main container-fluid">
-        <div class="row">
+        <div class="row ng-cloak" ng-if="isLoggedIn()">
             <div class="col-sm-12">
                 <h1 class="page-header">{{currenttable}}</h1>
+
             </div>
         </div>
 

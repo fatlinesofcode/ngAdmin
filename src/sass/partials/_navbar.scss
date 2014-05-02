@@ -7,6 +7,12 @@
   width: 100%;
   position: absolute;
 }
+body:not(.loggedin){
+  nav .navbar-toggle,
+  .navbar-static-side {
+    display: none;
+  }
+}
 @media (min-width: $screen-sm-min) {
   .navbar-static-side {
     width: 250px;

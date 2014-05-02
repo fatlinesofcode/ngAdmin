@@ -88,6 +88,9 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
         }
 
         scope.isLoggedIn = function() {
+
+            return apiService.loggedin;
+
             return ($cookieStore.get('loggedin') == 'yes')
         }
 

@@ -2,14 +2,11 @@ html, body {
   height: 100%;
 
 }
-.tester{
-   display: none !important;
-}
 
 .page-wrap {
-  position:relative; /* needed for footer positioning*/
-  height:auto !important; /* real browsers */
-  min-height:100%; /* real browsers */
+  position:relative;
+  height:auto !important;
+  min-height:100%;
 }
 .main{
   padding-bottom: $footer-height;

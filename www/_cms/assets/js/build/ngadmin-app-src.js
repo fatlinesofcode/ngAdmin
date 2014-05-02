@@ -468,6 +468,8 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
         var onComplete = function(response){
             if(response.error){
                 onApiError(response);
+            }else{
+                self.loggedin=true;
             }
             onCompleteCallback(response);
         };
@@ -664,6 +666,9 @@ app.controller('AppController', ['$scope', '$timeout', '$rootScope', 'routeServi
         }
 
         scope.isLoggedIn = function() {
+
+            return apiService.loggedin;
+
             return ($cookieStore.get('loggedin') == 'yes')
         }
 

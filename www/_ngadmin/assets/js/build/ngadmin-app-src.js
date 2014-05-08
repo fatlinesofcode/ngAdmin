@@ -527,7 +527,6 @@ app.factory('apiService', ['$resource','$cookieStore', 'CmsConfig', '$http', fun
 
         $cookieStore.put('AuthToken', token);
         $http.defaults.headers.common['Authorization'] = token;
-        $http.defaults.headers.common['HTTP_AUTHORIZATION'] = token;
     }
 
 

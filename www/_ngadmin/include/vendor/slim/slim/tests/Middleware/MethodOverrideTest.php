@@ -6,7 +6,7 @@
  * @copyright   2011 Josh Lockhart
  * @link        http://www.slimframework.com
  * @license     http://www.slimframework.com/license
- * @version     2.4.2
+ * @version     2.2.0
  *
  * MIT LICENSE
  *
@@ -64,7 +64,7 @@ class MethodOverrideTest extends PHPUnit_Framework_TestCase
         \Slim\Environment::mock(array(
             'REQUEST_METHOD' => 'POST',
             'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
-            'CONTENT_LENGTH' => 11,
+            'CONENT_LENGTH' => 11,
             'slim.input' => '_METHOD=PUT'
         ));
         $app = new CustomAppMethod();
@@ -98,7 +98,7 @@ class MethodOverrideTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test does not override method if no method override parameter
+     * Test does not override method if no method ovveride parameter
      */
     public function testDoesNotOverrideMethodAsPostWithoutParameter()
     {
@@ -132,9 +132,9 @@ class MethodOverrideTest extends PHPUnit_Framework_TestCase
         \Slim\Environment::mock(array(
             'REQUEST_METHOD' => 'POST',
             'CONTENT_TYPE' => 'application/json',
-            'CONTENT_LENGTH' => 0,
+            'CONENT_LENGTH' => 0,
             'slim.input' => '',
-            'HTTP_X_HTTP_METHOD_OVERRIDE' => 'DELETE'
+            'X_HTTP_METHOD_OVERRIDE' => 'DELETE'
         ));
         $app = new CustomAppMethod();
         $mw = new \Slim\Middleware\MethodOverride();

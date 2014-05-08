@@ -6,7 +6,7 @@
  * @copyright   2011 Josh Lockhart
  * @link        http://www.slimframework.com
  * @license     http://www.slimframework.com/license
- * @version     2.4.2
+ * @version     2.2.0
  * @package     Slim
  *
  * MIT LICENSE
@@ -35,70 +35,147 @@ namespace Slim\Http;
  /**
   * HTTP Headers
   *
+  * This class is an abstraction of the HTTP response headers and
+  * provides array access to the header list while automatically
+  * stores and retrieves headers with lowercase canonical keys regardless
+  * of the input format.
+  *
+  * This class also implements the `Iterator` and `Countable`
+  * interfaces for even more convenient usage.
+  *
   * @package Slim
   * @author  Josh Lockhart
   * @since   1.6.0
   */
-class Headers extends \Slim\Helper\Set
+class Headers implements \ArrayAccess, \Iterator, \Countable
 {
-    /********************************************************************************
-    * Static interface
-    *******************************************************************************/
+    /**
+     * @var array HTTP headers
+     */
+    protected $headers;
 
     /**
-     * Special-case HTTP headers that are otherwise unidentifiable as HTTP headers.
-     * Typically, HTTP headers in the $_SERVER array will be prefixed with
-     * `HTTP_` or `X_`. These are not so we list them here for later reference.
-     *
-     * @var array
+     * @var array Map canonical header name to original header name
      */
-    protected static $special = array(
-        'CONTENT_TYPE',
-        'CONTENT_LENGTH',
-        'PHP_AUTH_USER',
-        'PHP_AUTH_PW',
-        'PHP_AUTH_DIGEST',
-        'AUTH_TYPE'
-    );
+    protected $map;
 
     /**
-     * Extract HTTP headers from an array of data (e.g. $_SERVER)
-     * @param  array $data
-     * @return array
+     * Constructor
+     * @param  array $headers
      */
-    public static function extract($data)
+    public function __construct($headers = array())
     {
-        $results = array();
-        foreach ($data as $key => $value) {
-            $key = strtoupper($key);
-            if (strpos($key, 'X_') === 0 || strpos($key, 'HTTP_') === 0 || in_array($key, static::$special)) {
-                if ($key === 'HTTP_CONTENT_LENGTH') {
-                    continue;
-                }
-                $results[$key] = $value;
-            }
-        }
-
-        return $results;
+        $this->merge($headers);
     }
 
-    /********************************************************************************
-    * Instance interface
-    *******************************************************************************/
+    /**
+     * Merge Headers
+     * @param  array $headers
+     */
+    public function merge($headers)
+    {
+        foreach ($headers as $name => $value) {
+            $this[$name] = $value;
+        }
+    }
 
     /**
      * Transform header name into canonical form
-     * @param  string $key
+     * @param  string $name
      * @return string
      */
-    protected function normalizeKey($key)
+    protected function canonical($name)
     {
-        $key = strtolower($key);
-        $key = str_replace(array('-', '_'), ' ', $key);
-        $key = preg_replace('#^http #', '', $key);
-        $key = ucwords($key);
-        $key = str_replace(' ', '-', $key);
+        return strtolower(trim($name));
+    }
 
-        return $key;
+    /**
+     * Array Access: Offset Exists
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->headers[$this->canonical($offset)]);
+    }
+
+    /**
+     * Array Access: Offset Get
+     */
+    public function offsetGet($offset)
+    {
+        $canonical = $this->canonical($offset);
+        if (isset($this->headers[$canonical])) {
+            return $this->headers[$canonical];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Array Access: Offset Set
+     */
+    public function offsetSet($offset, $value)
+    {
+        $canonical = $this->canonical($offset);
+        $this->headers[$canonical] = $value;
+        $this->map[$canonical] = $offset;
+    }
+
+    /**
+     * Array Access: Offset Unset
+     */
+    public function offsetUnset($offset)
+    {
+        $canonical = $this->canonical($offset);
+        unset($this->headers[$canonical], $this->map[$canonical]);
+    }
+
+    /**
+     * Countable: Count
+     */
+    public function count()
+    {
+        return count($this->headers);
+    }
+
+    /**
+     * Iterator: Rewind
+     */
+    public function rewind()
+    {
+        reset($this->headers);
+    }
+
+    /**
+     * Iterator: Current
+     */
+    public function current()
+    {
+        return current($this->headers);
+    }
+
+    /**
+     * Iterator: Key
+     */
+    public function key()
+    {
+        $key = key($this->headers);
+
+        return $this->map[$key];
+    }
+
+    /**
+     * Iterator: Next
+     */
+    public function next()
+    {
+        return next($this->headers);
+    }
+
+    /**
+     * Iterator: Valid
+     */
+    public function valid()
+    {
+        return current($this->headers) !== false;
     }
 }

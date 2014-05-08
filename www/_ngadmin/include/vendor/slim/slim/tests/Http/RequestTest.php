@@ -6,7 +6,7 @@
  * @copyright   2011 Josh Lockhart
  * @link        http://www.slimframework.com
  * @license     http://www.slimframework.com/license
- * @version     2.4.2
+ * @version     2.2.0
  *
  * MIT LICENSE
  *
@@ -54,6 +54,11 @@ class RequestTest extends PHPUnit_Framework_TestCase
         ));
         $req = new \Slim\Http\Request($env);
         $this->assertTrue($req->isGet());
+        $this->assertFalse($req->isPost());
+        $this->assertFalse($req->isPut());
+        $this->assertFalse($req->isDelete());
+        $this->assertFalse($req->isOptions());
+        $this->assertFalse($req->isHead());
     }
 
     /**
@@ -65,7 +70,12 @@ class RequestTest extends PHPUnit_Framework_TestCase
             'REQUEST_METHOD' => 'POST',
         ));
         $req = new \Slim\Http\Request($env);
+        $this->assertFalse($req->isGet());
         $this->assertTrue($req->isPost());
+        $this->assertFalse($req->isPut());
+        $this->assertFalse($req->isDelete());
+        $this->assertFalse($req->isOptions());
+        $this->assertFalse($req->isHead());
     }
 
     /**
@@ -77,7 +87,12 @@ class RequestTest extends PHPUnit_Framework_TestCase
             'REQUEST_METHOD' => 'PUT',
         ));
         $req = new \Slim\Http\Request($env);
+        $this->assertFalse($req->isGet());
+        $this->assertFalse($req->isPost());
         $this->assertTrue($req->isPut());
+        $this->assertFalse($req->isDelete());
+        $this->assertFalse($req->isOptions());
+        $this->assertFalse($req->isHead());
     }
 
     /**
@@ -89,7 +104,12 @@ class RequestTest extends PHPUnit_Framework_TestCase
             'REQUEST_METHOD' => 'DELETE',
         ));
         $req = new \Slim\Http\Request($env);
+        $this->assertFalse($req->isGet());
+        $this->assertFalse($req->isPost());
+        $this->assertFalse($req->isPut());
         $this->assertTrue($req->isDelete());
+        $this->assertFalse($req->isOptions());
+        $this->assertFalse($req->isHead());
     }
 
     /**
@@ -101,7 +121,12 @@ class RequestTest extends PHPUnit_Framework_TestCase
             'REQUEST_METHOD' => 'OPTIONS',
         ));
         $req = new \Slim\Http\Request($env);
+        $this->assertFalse($req->isGet());
+        $this->assertFalse($req->isPost());
+        $this->assertFalse($req->isPut());
+        $this->assertFalse($req->isDelete());
         $this->assertTrue($req->isOptions());
+        $this->assertFalse($req->isHead());
     }
 
     /**
@@ -113,19 +138,12 @@ class RequestTest extends PHPUnit_Framework_TestCase
             'REQUEST_METHOD' => 'HEAD',
         ));
         $req = new \Slim\Http\Request($env);
+        $this->assertFalse($req->isGet());
+        $this->assertFalse($req->isPost());
+        $this->assertFalse($req->isPut());
+        $this->assertFalse($req->isDelete());
+        $this->assertFalse($req->isOptions());
         $this->assertTrue($req->isHead());
-    }
-
-    /**
-     * Test HTTP PATCH method detection
-     */
-    public function testIsPatch()
-    {
-        $env = \Slim\Environment::mock(array(
-            'REQUEST_METHOD' => 'PATCH',
-        ));
-        $req = new \Slim\Http\Request($env);
-        $this->assertTrue($req->isPatch());
     }
 
     /**
@@ -147,7 +165,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testIsAjaxWithQueryParameter()
     {
         $env = \Slim\Environment::mock(array(
-            'QUERY_STRING' => 'isajax=1',
+            'QUERY_STRING' => 'one=1&two=2&three=3&isajax=1',
         ));
         $req = new \Slim\Http\Request($env);
         $this->assertTrue($req->isAjax());
@@ -155,7 +173,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test AJAX method detection without header or query parameter
+     * Test AJAX method detection wihtout header or query paramter
      */
     public function testIsAjaxWithoutHeaderOrQueryParameter()
     {
@@ -190,7 +208,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, count($req->params()));
         $this->assertEquals('1', $req->params('one'));
         $this->assertNull($req->params('foo'));
-        $this->assertEquals(1, $req->params('foo', 1));
     }
 
     /**
@@ -222,7 +239,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, count($req->get()));
         $this->assertEquals('1', $req->get('one'));
         $this->assertNull($req->get('foo'));
-        $this->assertFalse($req->get('foo', false));
     }
 
     /**
@@ -238,7 +254,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(3, count($req->get()));
         $this->assertEquals('1', $req->get('one'));
         $this->assertNull($req->get('foo'));
-        $this->assertFalse($req->get('foo', false));
     }
 
     /**
@@ -256,7 +271,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($req->post()));
         $this->assertEquals('bar', $req->post('foo'));
         $this->assertNull($req->post('xyz'));
-        $this->assertFalse($req->post('xyz', false));
     }
 
     /**
@@ -275,7 +289,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($req->post()));
         $this->assertEquals('bar', $req->post('foo'));
         $this->assertNull($req->post('xyz'));
-        $this->assertFalse($req->post('xyz', false));
     }
 
     /**
@@ -324,26 +337,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $req->put('foo'));
         $this->assertEquals('bar', $req->params('foo'));
         $this->assertNull($req->put('xyz'));
-        $this->assertFalse($req->put('xyz', false));
-    }
-
-    /**
-     * Test fetch PATCH params
-     */
-    public function testPatch()
-    {
-        $env = \Slim\Environment::mock(array(
-            'REQUEST_METHOD' => 'PATCH',
-            'slim.input' => 'foo=bar&abc=123',
-            'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
-            'CONTENT_LENGTH' => 15
-        ));
-        $req = new \Slim\Http\Request($env);
-        $this->assertEquals(2, count($req->patch()));
-        $this->assertEquals('bar', $req->patch('foo'));
-        $this->assertEquals('bar', $req->params('foo'));
-        $this->assertNull($req->patch('xyz'));
-        $this->assertFalse($req->patch('xyz', false));
     }
 
     /**
@@ -362,7 +355,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('bar', $req->delete('foo'));
         $this->assertEquals('bar', $req->params('foo'));
         $this->assertNull($req->delete('xyz'));
-        $this->assertFalse($req->delete('xyz', false));
     }
 
     /**
@@ -371,7 +363,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testCookies()
     {
         $env = \Slim\Environment::mock(array(
-            'HTTP_COOKIE' => 'foo=bar; abc=123'
+            'COOKIE' => 'foo=bar; abc=123'
         ));
         $req = new \Slim\Http\Request($env);
         $this->assertEquals(2, count($req->cookies()));
@@ -439,11 +431,12 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testHeaders()
     {
         $env = \Slim\Environment::mock(array(
-            'HTTP_ACCEPT_ENCODING' => 'gzip'
+            'ACCEPT_ENCODING' => 'gzip'
         ));
         $req = new \Slim\Http\Request($env);
         $headers = $req->headers();
-        $this->assertInstanceOf('\Slim\Http\Headers', $headers);
+        $this->assertTrue(is_array($headers));
+        $this->assertArrayHasKey('ACCEPT_ENCODING', $headers);
         $this->assertEquals('gzip', $req->headers('HTTP_ACCEPT_ENCODING'));
         $this->assertEquals('gzip', $req->headers('HTTP-ACCEPT-ENCODING'));
         $this->assertEquals('gzip', $req->headers('http_accept_encoding'));
@@ -509,19 +502,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get content type for built-in PHP server
-     */
-    public function testGetContentTypeForBuiltInServer()
-    {
-        $env = \Slim\Environment::mock(array(
-            'slim.input' => '',
-            'HTTP_CONTENT_TYPE' => 'application/json; charset=ISO-8859-4'
-        ));
-        $req = new \Slim\Http\Request($env);
-        $this->assertEquals('application/json; charset=ISO-8859-4', $req->getContentType());
-    }
-
-    /**
      * Test get content type
      */
     public function testGetContentTypeWhenNotExists()
@@ -529,19 +509,6 @@ class RequestTest extends PHPUnit_Framework_TestCase
         $env = \Slim\Environment::mock();
         $req = new \Slim\Http\Request($env);
         $this->assertNull($req->getContentType());
-    }
-
-    /**
-     * Test get content type with built-in server
-     */
-    public function testGetContentTypeWithBuiltInServer()
-    {
-        $env = \Slim\Environment::mock(array(
-            'slim.input' => '',
-            'HTTP_CONTENT_TYPE' => 'application/json; charset=ISO-8859-4'
-        ));
-        $req = new \Slim\Http\Request($env);
-        $this->assertEquals('application/json; charset=ISO-8859-4', $req->getContentType());
     }
 
     /**
@@ -665,7 +632,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         $env = \Slim\Environment::mock(array(
             'SERVER_NAME' => 'slim',
-            'HTTP_HOST' => 'slimframework.com'
+            'HOST' => 'slimframework.com'
         ));
         $req = new \Slim\Http\Request($env);
         $this->assertEquals('slimframework.com', $req->getHost()); //Uses HTTP_HOST if available
@@ -678,7 +645,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         $env = \Slim\Environment::mock(array(
             'SERVER_NAME' => 'slim',
-            'HTTP_HOST' => 'slimframework.com:80'
+            'HOST' => 'slimframework.com:80'
         ));
         $req = new \Slim\Http\Request($env);
         $this->assertEquals('slimframework.com', $req->getHost()); //Uses HTTP_HOST if available
@@ -691,9 +658,9 @@ class RequestTest extends PHPUnit_Framework_TestCase
     {
         $env = \Slim\Environment::mock(array(
             'SERVER_NAME' => 'slim',
-            'HTTP_HOST' => 'slimframework.com'
+            'HOST' => 'slimframework.com'
         ));
-        unset($env['HTTP_HOST']);
+        unset($env['HOST']);
         $req = new \Slim\Http\Request($env);
         $this->assertEquals('slim', $req->getHost()); //Uses SERVER_NAME as backup
     }
@@ -704,7 +671,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetHostWithPort()
     {
         $env = \Slim\Environment::mock(array(
-            'HTTP_HOST' => 'slimframework.com',
+            'HOST' => 'slimframework.com',
             'SERVER_NAME' => 'slim',
             'SERVER_PORT' => 80,
             'slim.url_scheme' => 'http'
@@ -714,12 +681,12 @@ class RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get host with port doesn't duplicate port numbers
+     * Test get host with port doesn't dulplicate port numbers
      */
-    public function testGetHostDoesntDuplicatePort()
+    public function testGetHostDoesntDulplicatePort()
     {
         $env = \Slim\Environment::mock(array(
-            'HTTP_HOST' => 'slimframework.com:80',
+            'HOST' => 'slimframework.com:80',
             'SERVER_NAME' => 'slim',
             'SERVER_PORT' => 80,
             'slim.url_scheme' => 'http'
@@ -839,7 +806,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetUrl()
     {
         $env = \Slim\Environment::mock(array(
-            'HTTP_HOST' => 'slimframework.com',
+            'HOST' => 'slimframework.com',
             'SERVER_NAME' => 'slim',
             'SERVER_PORT' => 80,
             'slim.url_scheme' => 'http'
@@ -854,7 +821,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetUrlWithCustomPort()
     {
         $env = \Slim\Environment::mock(array(
-            'HTTP_HOST' => 'slimframework.com',
+            'HOST' => 'slimframework.com',
             'SERVER_NAME' => 'slim',
             'SERVER_PORT' => 8080,
             'slim.url_scheme' => 'http'
@@ -869,7 +836,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetUrlWithHttps()
     {
         $env = \Slim\Environment::mock(array(
-            'HTTP_HOST' => 'slimframework.com',
+            'HOST' => 'slimframework.com',
             'SERVER_NAME' => 'slim',
             'SERVER_PORT' => 443,
             'slim.url_scheme' => 'https'
@@ -880,33 +847,50 @@ class RequestTest extends PHPUnit_Framework_TestCase
 
     /**
      * Test get IP
-     *  @dataProvider dataTestIp
      */
-    public function testGetIp(array $server, $expected)
+    public function testGetIp()
     {
-        $env = \Slim\Environment::mock($server);
+        $env = \Slim\Environment::mock(array(
+            'REMOTE_ADDR' => '127.0.0.1'
+        ));
         $req = new \Slim\Http\Request($env);
-        $this->assertEquals($expected, $req->getIp());
-    }
-
-    public function dataTestIp()
-    {
-        return array(
-                array(array('REMOTE_ADDR' => '127.0.0.1'), '127.0.0.1'),
-                array(array('REMOTE_ADDR' => '127.0.0.1', 'CLIENT_IP' => '127.0.0.2'), '127.0.0.2'),
-                array(array('REMOTE_ADDR' => '127.0.0.1', 'CLIENT_IP' => '127.0.0.2', 'X_FORWARDED_FOR' => '127.0.0.3'), '127.0.0.3'),
-                array(array('REMOTE_ADDR' => '127.0.0.1', 'CLIENT_IP' => '127.0.0.2', 'HTTP_X_FORWARDED_FOR' => '127.0.0.4'), '127.0.0.4'),
-                array(array('REMOTE_ADDR' => '127.0.0.1', 'CLIENT_IP' => '127.0.0.2', 'X_FORWARDED_FOR' => '127.0.0.3', 'HTTP_X_FORWARDED_FOR' => '127.0.0.4'), '127.0.0.3'),
-        );
+        $this->assertEquals('127.0.0.1', $req->getIp());
     }
 
     /**
-     * Test get referer
+     * Test get IP with proxy server and Client-Ip header
+     */
+    public function testGetIpWithClientIp()
+    {
+        $env = \Slim\Environment::mock(array(
+            'REMOTE_ADDR' => '127.0.0.1',
+            'CLIENT_IP' => '127.0.0.2'
+        ));
+        $req = new \Slim\Http\Request($env);
+        $this->assertEquals('127.0.0.2', $req->getIp());
+    }
+
+    /**
+     * Test get IP with proxy server and X-Forwarded-For header
+     */
+    public function testGetIpWithForwardedFor()
+    {
+        $env = \Slim\Environment::mock(array(
+            'REMOTE_ADDR' => '127.0.0.1',
+            'CLIENT_IP' => '127.0.0.2',
+            'X_FORWARDED_FOR' => '127.0.0.3'
+        ));
+        $req = new \Slim\Http\Request($env);
+        $this->assertEquals('127.0.0.3', $req->getIp());
+    }
+
+    /**
+     * Test get refererer
      */
     public function testGetReferrer()
     {
         $env = \Slim\Environment::mock(array(
-            'HTTP_REFERER' => 'http://foo.com'
+            'REFERER' => 'http://foo.com'
         ));
         $req = new \Slim\Http\Request($env);
         $this->assertEquals('http://foo.com', $req->getReferrer());
@@ -914,7 +898,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test get referer
+     * Test get refererer
      */
     public function testGetReferrerWhenNotExists()
     {
@@ -930,7 +914,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetUserAgent()
     {
         $env = \Slim\Environment::mock(array(
-            'HTTP_USER_AGENT' => 'user-agent-string'
+            'USER_AGENT' => 'user-agent-string'
         ));
         $req = new \Slim\Http\Request($env);
         $this->assertEquals('user-agent-string', $req->getUserAgent());
@@ -942,7 +926,7 @@ class RequestTest extends PHPUnit_Framework_TestCase
     public function testGetUserAgentWhenNotExists()
     {
         $env = \Slim\Environment::mock();
-        unset($env['HTTP_USER_AGENT']);
+        unset($env['USER_AGENT']);
         $req = new \Slim\Http\Request($env);
         $this->assertNull($req->getUserAgent());
     }

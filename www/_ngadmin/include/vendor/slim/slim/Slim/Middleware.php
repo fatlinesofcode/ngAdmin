@@ -6,7 +6,7 @@
  * @copyright   2011 Josh Lockhart
  * @link        http://www.slimframework.com
  * @license     http://www.slimframework.com/license
- * @version     2.4.2
+ * @version     2.2.0
  * @package     Slim
  *
  * MIT LICENSE
@@ -42,7 +42,7 @@ namespace Slim;
 abstract class Middleware
 {
     /**
-     * @var \Slim\Slim Reference to the primary application instance
+     * @var \Slim Reference to the primary application instance
      */
     protected $app;
 
@@ -57,7 +57,7 @@ abstract class Middleware
      * This method injects the primary Slim application instance into
      * this middleware.
      *
-     * @param  \Slim\Slim $application
+     * @param  \Slim $application
      */
     final public function setApplication($application)
     {
@@ -70,7 +70,7 @@ abstract class Middleware
      * This method retrieves the application previously injected
      * into this middleware.
      *
-     * @return \Slim\Slim
+     * @return \Slim
      */
     final public function getApplication()
     {
@@ -97,7 +97,7 @@ abstract class Middleware
      * This method retrieves the next downstream middleware
      * previously injected into this middleware.
      *
-     * @return \Slim\Slim|\Slim\Middleware
+     * @return \Slim|\Slim\Middleware
      */
     final public function getNextMiddleware()
     {

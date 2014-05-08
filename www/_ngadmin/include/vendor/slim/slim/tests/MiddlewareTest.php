@@ -6,7 +6,7 @@
  * @copyright   2011 Josh Lockhart
  * @link        http://www.slimframework.com
  * @license     http://www.slimframework.com/license
- * @version     2.4.2
+ * @version     2.2.0
  *
  * MIT LICENSE
  *
@@ -30,50 +30,57 @@
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-class MyMiddleware extends \Slim\Middleware
+class My_Middleware extends \Slim\Middleware
 {
-    public function call() {}
+    public function call()
+    {
+        echo "Before";
+        $this->next->call();
+        echo "After";
+    }
+}
+
+class My_Application
+{
+    public function call()
+    {
+        echo "Application";
+    }
 }
 
 class MiddlewareTest extends PHPUnit_Framework_TestCase
 {
-    public function testSetApplication()
+    /**
+     * Get and set application
+     */
+    public function testGetAndSetApplication()
     {
-        $app = new stdClass();
-        $mw = new MyMiddleware();
+        $app = new My_Application();
+        $mw = new My_Middleware();
         $mw->setApplication($app);
-
-        $this->assertAttributeSame($app, 'app', $mw);
-    }
-
-    public function testGetApplication()
-    {
-        $app = new stdClass();
-        $mw = new MyMiddleware();
-        $property = new \ReflectionProperty($mw, 'app');
-        $property->setAccessible(true);
-        $property->setValue($mw, $app);
-
         $this->assertSame($app, $mw->getApplication());
     }
 
-    public function testSetNextMiddleware()
+    /**
+     * Get and set next middleware
+     */
+    public function testGetAndSetNextMiddleware()
     {
-        $mw1 = new MyMiddleware();
-        $mw2 = new MyMiddleware();
+        $mw1 = new My_Middleware();
+        $mw2 = new My_Middleware();
         $mw1->setNextMiddleware($mw2);
-
-        $this->assertAttributeSame($mw2, 'next', $mw1);
+        $this->assertSame($mw2, $mw1->getNextMiddleware());
     }
 
-    public function testGetNextMiddleware()
+    /**
+     * Test call
+     */
+    public function testCall()
     {
-        $mw1 = new MyMiddleware();
-        $mw2 = new MyMiddleware();
-        $property = new \ReflectionProperty($mw1, 'next');
-        $property->setAccessible(true);
-        $property->setValue($mw1, $mw2);
-
-        $this->assertSame($mw2, $mw1->getNextMiddleware());
+        $this->expectOutputString('BeforeApplicationAfter');
+        $app = new My_Application();
+        $mw = new My_Middleware();
+        $mw->setNextMiddleware($app);
+        $mw->call();
     }
 }

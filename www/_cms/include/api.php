@@ -135,7 +135,7 @@ class Api
             ->offset($offset)
             ->find_many();
 
-        $result = [];
+        $result = array();
         foreach($rows as $row) {
             array_push($result, $row->as_array());
         }

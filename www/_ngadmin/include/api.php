@@ -43,7 +43,7 @@ class Api
 
         $result = false;
 
-        $headers = getallheaders();
+        $headers = $this->get_request_headers();
 
         if (isset($headers['Authorization'])) {
             $token = $headers['Authorization'];
@@ -72,6 +72,15 @@ class Api
         }
 
         return $result;
+    }
+
+    function get_request_headers(){
+        if( !function_exists('getallheaders') ) {
+            return getallheaders();
+        }else{
+            return null;
+        }
+
     }
 
     function createToken($username, $hashPassword){

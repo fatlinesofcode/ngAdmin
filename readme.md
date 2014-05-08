@@ -13,7 +13,7 @@
 
 
 ## Example
-> http://ngadmin.herokuapp.com/www/_cms/
+> http://srv.re/ngadmin/www/_ngadmin
 > > login : admin / admin
 
 ## Prerequisites

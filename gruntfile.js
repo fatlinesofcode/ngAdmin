@@ -32,8 +32,8 @@ module.exports = function (grunt) {
                     'src/js/app/LoginController.js',
                     'src/js/app/HomeController.js'
                 ],
-                dest: 'www/_cms/assets/js/build/<%= pkg.name %>-app-src.js',
-                build: 'www/_cms/assets/js/build/<%= pkg.name %>-app-min.js'
+                dest: 'www/_ngadmin/assets/js/build/<%= pkg.name %>-app-src.js',
+                build: 'www/_ngadmin/assets/js/build/<%= pkg.name %>-app-min.js'
             },
             plugins: {
                 src: [
@@ -46,8 +46,8 @@ module.exports = function (grunt) {
                     'src/js/plugins/canvasResize/canvasResize.js'
 
                 ],
-                dest: 'www/_cms/assets/js/build/<%= pkg.name %>-plugins-src.js',
-                build: 'www/_cms/assets/js/build/<%= pkg.name %>-plugins-min.js'
+                dest: 'www/_ngadmin/assets/js/build/<%= pkg.name %>-plugins-src.js',
+                build: 'www/_ngadmin/assets/js/build/<%= pkg.name %>-plugins-min.js'
             }
         },
         uglify: {
@@ -75,13 +75,13 @@ module.exports = function (grunt) {
             index: {
                 files: [
                     // includes files within path
-                    {expand: false, src: 'www/_cms/index.html', dest: 'www/_cms/index.dev.html', filter: 'isFile'}
+                    {expand: false, src: 'www/_ngadmin/index.html', dest: 'www/_ngadmin/index.dev.html', filter: 'isFile'}
 
                 ]
             },
             cms: {
                 files: [
-                    {expand: true, src: ['www/_cms/**'], dest: '/Users/phil/Sites/git/clients/project/'}
+                    {expand: true, src: ['www/_ngadmin/**'], dest: '/Users/phil/Sites/git/clients/project/'}
 
                 ]
             }
@@ -100,8 +100,8 @@ module.exports = function (grunt) {
                 // Task-specific options go here.
             },
             files: {
-                src: 'www/_cms/assets/css/site.css',
-                dest: 'www/_cms/assets/css/site.css'
+                src: 'www/_ngadmin/assets/css/site.css',
+                dest: 'www/_ngadmin/assets/css/site.css'
             }
         },
 
@@ -115,7 +115,7 @@ module.exports = function (grunt) {
                 },
                 files: {
                     // Target-specific file lists and/or options go here.
-                    'www/_cms/index.dev.html': ['<%= concat.plugins.src %>', '<%= concat.app.src %>']
+                    'www/_ngadmin/index.dev.html': ['<%= concat.plugins.src %>', '<%= concat.app.src %>']
                 }
             }
         },
@@ -125,9 +125,9 @@ module.exports = function (grunt) {
             dynamic: {                         // Another target
                 files: [{
                     expand: true,                  // Enable dynamic expansion
-                    cwd: 'www/_cms/assets/img/',                   // Src matches are relative to this path
+                    cwd: 'www/_ngadmin/assets/img/',                   // Src matches are relative to this path
                     src: ['**/*.{png,jpg,gif}'],   // Actual patterns to match
-                    dest: 'www/_cms/assets/img/'                  // Destination path prefix
+                    dest: 'www/_ngadmin/assets/img/'                  // Destination path prefix
                 }]
             }
         },
@@ -135,8 +135,8 @@ module.exports = function (grunt) {
         minjson: {
             build: {
                 files: {
-                    'www/_cms/assets/config.min.json':
-                        'www/_cms/assets/config.json'
+                    'www/_ngadmin/assets/config.min.json':
+                        'www/_ngadmin/assets/config.json'
                 }
             }
         },

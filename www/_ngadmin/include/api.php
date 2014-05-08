@@ -9,7 +9,7 @@ class Api
         ORM::configure(AppConfig::$db_dsn);
         ORM::configure('username', AppConfig::$db_user);
         ORM::configure('password', AppConfig::$db_pass);
-        $this->app = new Slim(array("MODE" => "development"));
+        $this->app = new \Slim\Slim(array("MODE" => "development"));
         $this->setup_routes();
         $this->app->run();
     }

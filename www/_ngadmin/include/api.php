@@ -162,7 +162,7 @@ class Api
             ->offset($offset)
             ->find_many();
 
-        $result = [];
+        $result = array();
         foreach($records as $record) {
             array_push($result, $record->as_array());
         }
@@ -204,11 +204,11 @@ class Api
 
             $path = AppConfig::$uploadPath;
             if (!file_exists($path)) {
-                render_error($path, 'path does not exist');
+                $this->render_error($path. '. path does not exist');
             }
 
             if (!is_writable($path)) {
-                render_error($path, 'file is not writeable');
+                $this->render_error($path . '. file is not writeable');
             }
 
             $decoded = base64_decode($imagedata);
@@ -224,6 +224,9 @@ class Api
         } else {
             return $imagedata;
         }
+    }
+    function render_error($msg){
+        $this->echo_json(array('error' => $msg), 403);
     }
 
     function get_json_payload($as_array = false){

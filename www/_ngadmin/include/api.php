@@ -18,6 +18,7 @@ class Api
      */
     function setup_routes(){
         echo "<pre>";
+        print_r($_SERVER);
         print_r($this->app->request());
 
         $this->app->get('/',  function(){

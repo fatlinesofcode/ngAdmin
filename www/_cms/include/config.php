@@ -1,8 +1,8 @@
 <?php
 date_default_timezone_set('Australia/Melbourne');
 
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
+//error_reporting(E_ALL);
+//ini_set("display_errors", 1);
 
 class AppConfig{
         public static $facebook_app_id;

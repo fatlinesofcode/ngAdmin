@@ -6,7 +6,6 @@ app.config(['$locationProvider',function ($locationProvider) {
 }]);
 
 
-
 deferredBootstrapper.bootstrap({
     element: document,
     module: 'ngAdmin',

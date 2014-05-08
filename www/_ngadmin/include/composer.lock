@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3f77f82ce83fdc752c88469b97c38631",
+    "hash": "bf9fa75d485e2d3134a9dbb327741324",
     "packages": [
         {
             "name": "j4mie/idiorm",
@@ -65,20 +65,23 @@
         },
         {
             "name": "slim/slim",
-            "version": "2.2.0",
+            "version": "2.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/codeguy/Slim.git",
-                "reference": "b8181de1112a1e2f565b40158b621c34ded38053"
+                "reference": "4906b77a07c7bd6ff1a99aea903e940a2d4fa106"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeguy/Slim/zipball/b8181de1112a1e2f565b40158b621c34ded38053",
-                "reference": "b8181de1112a1e2f565b40158b621c34ded38053",
+                "url": "https://api.github.com/repos/codeguy/Slim/zipball/4906b77a07c7bd6ff1a99aea903e940a2d4fa106",
+                "reference": "4906b77a07c7bd6ff1a99aea903e940a2d4fa106",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-mcrypt": "Required for HTTP cookie encryption"
             },
             "type": "library",
             "autoload": {
@@ -104,7 +107,7 @@
                 "rest",
                 "router"
             ],
-            "time": "2012-12-13 02:15:50"
+            "time": "2014-04-05 18:33:59"
         }
     ],
     "packages-dev": [

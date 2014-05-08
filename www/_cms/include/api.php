@@ -1,6 +1,7 @@
 <?php
 require_once "vendor/autoload.php";
 require_once "config.php";
+require_once "apache_request_headers.php";
 
 class Api
 {

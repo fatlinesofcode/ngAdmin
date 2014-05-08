@@ -35,7 +35,8 @@ class Api
 
         $result = false;
 
-        $headers = apache_request_headers();
+        $headers = getallheaders();
+
         if (isset($headers['Authorization'])) {
             $token = $headers['Authorization'];
             if($this->checkToken($token)){

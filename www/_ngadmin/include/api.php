@@ -17,6 +17,9 @@ class Api
      * Crud routes
      */
     function setup_routes(){
+        $this->app->get('/',  function(){
+            echo "hello slim";
+        } );
         //login
         $this->app->post('/login',  array($this, '_login') );
         //create

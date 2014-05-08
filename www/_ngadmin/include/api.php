@@ -75,7 +75,7 @@ class Api
     }
 
     function get_request_headers(){
-        if( !function_exists('getallheaders') ) {
+        if( function_exists('getallheaders') ) {
             return getallheaders();
         }else{
             return null;

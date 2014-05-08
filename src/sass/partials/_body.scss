@@ -1,0 +1,20 @@
+html, body {
+  height: 100%;
+
+}
+
+.page-wrap {
+  position:relative;
+  height:auto !important;
+  min-height:100%;
+}
+.main{
+  padding-bottom: $footer-height;
+
+}
+
+.footer{
+    position: absolute;
+  bottom:0;
+
+}

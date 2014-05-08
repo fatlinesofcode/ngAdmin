@@ -1,15 +1,28 @@
-@import "_normalize.scss";
-@import "_foundation.scss";
-@import "partials/icons";
-@import "partials/_reset";
+//@import "_normalize.scss";
+//@import "_foundation.scss";
+@import "settings";
+@import "bootstrap";
+//@import "partials/icons";
+//@import "partials/_reset";
+/*
 @import "partials/_functions";
 @import "partials/_mixins";
 @import "partials/_font";
-//@import "partials/_ng-animate";
+@import "partials/_ng-animate";
 @import "partials/_ng-form";
 @import "partials/icons";
 @import "partials/svg-loading";
-//@import "partials/_preload";
-@import "_app";
+@import "partials/navbar";
+@import "partials/main";
+@import "partials/body";
+*/
+@import "partials/body";
+@import "partials/main";
+@import "partials/navbar";
+@import "partials/footer";
+@import "partials/ng-animate";
+@import "partials/svg-loading";
+@import "partials/login";
+//@import "_app";
 //@import "partials/_debug";
 

@@ -1,0 +1,59 @@
+<section id="login" class="view">
+
+    <div class="container">
+
+        <h1 class="page-header">Sign in</h1>
+
+            <form class="form-horizontal" ng-submit="save(formdata)" novalidate="" name="form" ng-class="'state-'+state">
+                <fieldset>
+                    <div class="form-group field">
+                            <label for="field-username" class="col-sm-3 control-label">
+                                Username
+                            </label>
+                        <div class="col-sm-9">
+                            <input id="field-username"
+                                   class="form-control"
+                                   type="text" required="required"  ng-disabled="processing"
+                                   ng-model="formdata.username" name="username" placeholder="Username" />
+
+                        </div>
+                    </div>
+
+                    <div class="form-group field">
+                            <label for="field-username" class="col-sm-3 control-label">
+                                Password
+                            </label>
+                        <div class="col-sm-9">
+                            <input id="field-password"
+                                   class="form-control"
+                                   type="password" required="required"  ng-disabled="processing"
+                                   ng-model="formdata.password" name="password" placeholder="Password" />
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <alert ng-repeat="alert in alerts" class="animate-repeat" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-sm-offset-3 col-sm-9">
+                            <button type="submit" class="btn btn-lg btn-block btn-primary" ng-disabled="processing">Sign in</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+
+
+
+
+
+    </div>
+
+
+</section>

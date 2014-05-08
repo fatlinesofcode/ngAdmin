@@ -1,0 +1,26 @@
+.navbar-static-side ul li{
+  border-bottom: solid 1px #e7e7e7;
+}
+.navbar-static-side {
+  padding-top: $navbar-height + 1px;
+  z-index: 1;
+  width: 100%;
+  position: absolute;
+}
+body:not(.loggedin){
+  nav .navbar-toggle,
+  .navbar-static-side {
+    display: none;
+  }
+}
+@media (min-width: $screen-sm-min) {
+  .navbar-static-side {
+    width: 250px;
+    height:100%;
+    border-right: 1px solid #e7e7e7;
+    .collapse{
+      display: block !important;
+      height:auto !important;
+    }
+  }
+}

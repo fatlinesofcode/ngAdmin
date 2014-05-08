@@ -1,0 +1,131 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title ng-bind="doctitle"></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="assets/css/site.css">
+    <script src='assets/js/libs/modernizr.custom-2.6.2.min.js'></script>
+
+</head>
+<body  ng-controller="AppController" ng-class="pageClass">
+
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Help</a></li>
+            </ul>
+            <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search...">
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar" style="position: fixed">
+            <ul class="nav nav-sidebar">
+                <li class="active"><a href="#">Overview</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Analytics</a></li>
+                <li><a href="#">Export</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="">Nav item</a></li>
+                <li><a href="">Nav item again</a></li>
+                <li><a href="">One more nav</a></li>
+                <li><a href="">Another nav item</a></li>
+                <li><a href="">More navigation</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="">Nav item again</a></li>
+                <li><a href="">One more nav</a></li>
+                <li><a href="">Another nav item</a></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <header>
+                    <h1>
+                        <span ng-if="config.clientLogo"><img ng-src="{{config.clientLogo}}" title="{{config.sitetitle}}"/></span>
+                        <span ng-if="!config.clientLogo">{{config.sitetitle}}</span>
+                    </h1>
+            </header>
+
+            <h2><a ng-href="#!/home">{{config.sitetitle}}</a> <span ng-if="currenttable">/ <a ng-href="#!/list/{{currenttable}}">{{currenttable}}</a></span> <span ng-if="title">/ {{title}}</span></h2>
+
+
+            <div ng-view class="app-view"></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+    <footer>
+
+        <div class="container text-right">
+                {{config.sitetitle}} &copy; {{config.client}}
+        </div>
+    </footer>
+
+
+<!--[if lte IE 9]>
+    <div id="ie-warning">
+        <h2>Sorry, a newer browser is<br/> required to view this site.</h2>
+        <h3>Please try <a href="http://browsehappy.com/" target="_blank">upgrading to a different browser</a> or<br/> <a
+                href="javascript:loadwindow('http://www.google.com/chromeframe/', {width:800})">install Google Chrome
+            Frame</a>.
+        </h3>
+        <a class="close" href="javascript:document.getElementById('ie-warning').style.display = 'none';void(0);">close</a>
+    </div>
+<![endif]-->
+
+
+<!-- js libraries -->
+<script src='//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+<script src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js'></script>
+<script src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-route.min.js'></script>
+<script src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-resource.min.js'></script>
+<script src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-animate.min.js'></script>
+<script src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-touch.min.js'></script>
+<script src='//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-cookies.min.js'></script>
+
+<script src="assets/js/libs/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" href="assets/css/ng-ckeditor.css">
+
+<!-- js builds -->
+
+<!--SCRIPTS-->
+<script src="assets/js/build/ngadmin-plugins-min.js"></script>
+<script src="assets/js/build/ngadmin-app-min.js"></script>
+<!--SCRIPTS END-->
+
+
+
+
+
+
+
+</body>
+</html>

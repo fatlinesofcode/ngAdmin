@@ -4,6 +4,9 @@ app.controller('LoginController', ['$scope', '$timeout', 'apiService','routeServ
     if (true)scope = $scope;
     /* end */
 
+    scope.alerts = [
+    ];
+
     scope.initialize = function () {
         apiService.logout();
         toggleListeners(true);
@@ -23,11 +26,12 @@ app.controller('LoginController', ['$scope', '$timeout', 'apiService','routeServ
     };
 
     scope.save = function(data) {
-
+        scope.alerts = [];
         // return;
         scope.state = "submitted";
 
         if(scope.form.$invalid){
+            scope.alerts = [ { type: 'danger', msg: 'You must enter your username and password.' } ];
             return;
         }
 
@@ -42,9 +46,15 @@ app.controller('LoginController', ['$scope', '$timeout', 'apiService','routeServ
             routeService.redirectTo(['home'])
             else{
                 scope.state = "invalid"
+
+                scope.alerts = [ { type: 'danger', msg: 'Invalid username or password.' } ];
             }
         })
     }
+
+    scope.closeAlert = function (index) {
+        scope.alerts.splice(index, 1);
+    };
 
     scope.initialize();
     return scope;

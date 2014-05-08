@@ -1,0 +1,82 @@
+<section id="list" class="view">
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+
+
+            <div class="panel panel-default">
+                <div class="panel-heading text-left">
+
+                    <div class="row">
+                        <div class="col-sm-12 text-right"><a class="btn btn-primary" ng-href="#!/edit/{{table}}/add">Add</a></div>
+                    </div>
+
+
+
+                </div>
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+
+                        <table class="table table-striped table-bordered table-hover">
+
+                            <thead>
+                            <tr>
+                                <th ng-repeat="field in fields">{{field.label}}</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody ng-if="! listdata">
+                            <tr>
+                                <td colspan="100" class="text-center">
+                                    <div ng-svg-loading="spin"></div>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tbody>
+                            <!--ng-click="redirectTo('edit/'+table+'/row.id')" -->
+                            <tr ng-repeat="row in listdata">
+                                <td ng-repeat="field in fields" ng-class="'tablecol-'+field.name">
+                                    <ng-switch on="field.type">
+                                        <!-- order box -->
+                                        <input class="form-control input-sm"
+                                               ng-switch-when="text" type="text" id="field-{{field.name}}"
+                                               ng-disabled="processing"
+                                               ng-model="row[field.name]" ng-input-name="field.name"
+                                               ng-change="onInputChange(row.id, field.name, row[field.name])"
+                                                >
+
+
+                                        <!-- checkbox -->
+                                        <input class=""
+                                               ng-switch-when="checkbox" type="checkbox" id="field-{{field.name}}"
+                                               ng-model="row[field.name]"
+                                               ng-disabled="processing"
+                                               ng-true-value="1" ng-false-value="0"
+                                               ng-click="toggleActive(row)"
+                                                >
+
+                            <span ng-switch-when="date"><a ng-href="#!/edit/{{table}}/{{row.id}}">{{row[field.name] |
+                                dateformat }}</a></span>
+                                        <span ng-switch-default=""><a ng-href="#!/edit/{{table}}/{{row.id}}">{{row[field.name]}}</a></span>
+                                    </ng-switch>
+
+                                </td>
+
+                                <td class="text-right">
+                                    <a class="glyphicon glyphicon-edit" title="edit"
+                                       ng-href="#!/edit/{{table}}/{{row.id}}"></a>
+                                    <span class="separator">|</span>
+                                    <a class="glyphicon glyphicon-remove" title="delete"
+                                       ng-click="delete(row.title || row.name || row.id, row.id)"></a></td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

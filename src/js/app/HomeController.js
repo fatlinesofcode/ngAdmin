@@ -18,7 +18,7 @@ app.controller('HomeController', ['$scope', '$timeout','apiService', 'CmsConfig'
         for(var key in scope.tables){
             tablenames.push(key);
         }
-        apiService.retrieve({table:'count', tables:angular.toJson(tablenames)}, function(response){
+        apiService.retrieve({task:'count', tables:angular.toJson(tablenames)}, function(response){
             for(var k in response.result){
                 scope.tables[k].count = response.result[k];
             }

@@ -50,10 +50,15 @@ app.controller('ListController', ['$scope', '$routeParams', 'apiService', 'CmsCo
         apiService.update({table:scope.table, id:obj.id}, {active:!obj.active}, loadData)
     }
     scope.delete = function(title, id) {
-        var proceed = confirm("Are you sure you want to delete '"+title+"'?");
-        if(proceed){
-            apiService.delete({table:scope.table, id:id}, loadData)
-        }
+
+        var modal = scope.openModal('Warning', "Are you sure you want to delete '" + title + "'?", 'sm');
+        modal.result.then(function (confirmed) {
+            if(confirmed){
+                apiService.delete({table:scope.table, id:id}, loadData)
+            }
+        });
+
+
 
     }
     scope.onInputChange= function(id, field, newVal)  {

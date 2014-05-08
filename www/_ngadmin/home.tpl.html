@@ -1,0 +1,24 @@
+<section id="home" class="view">
+
+            <table class="table table-striped">
+
+                <tbody>
+                <tr ng-repeat="(key, row) in tables" ng-click="redirectTo('list/'+key)">
+                    <td>
+                        <a ng-href="#!/list/{{key}}">{{row.title}}</a>
+                     </td>
+                    <td class="text-right">
+                        <!--
+                        <a ng-href="#!/list/{{key}}">view</a> | <a ng-href="#!/edit/{{key}}/add">add</a>
+                        -->
+                        {{row.count}} items
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+
+
+
+</section>
